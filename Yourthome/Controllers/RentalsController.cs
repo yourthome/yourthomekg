@@ -86,7 +86,9 @@ namespace Yourthome.Controllers
                 Region = rvm.Region,
                 Street = rvm.Street,
                 Rooms = rvm.Rooms,
-                Description = rvm.Description
+                Description = rvm.Description,
+                Latitude = rvm.Latitude,
+                Longitude = rvm.Longitude
             };
             if(rvm.Photos!=null)
             {

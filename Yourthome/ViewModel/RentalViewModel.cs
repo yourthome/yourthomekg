@@ -13,6 +13,8 @@ namespace Yourthome.ViewModel
         public string Street { get; set; }
         public int Rooms { get; set; }
         public string Description { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
         public List<IFormFile> Photos { get; set; }
     }
 }
