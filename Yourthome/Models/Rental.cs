@@ -43,4 +43,9 @@ namespace Yourthome.Models
         [Display(Name = "Баткен")]
         Batken
     }
+    public enum Sort
+    {
+        ASC,
+        DESC
+    }
 }
