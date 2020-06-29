@@ -25,10 +25,20 @@ namespace Yourthome.Controllers
 
         // GET: api/Rentals
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rental>>> GetRental()
+        public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region,[FromQuery]int? rooms)
         {
-            return await _context.Rental.ToListAsync();
+            var rents = _context.Rental.AsQueryable();
+            if (region.HasValue)
+            {
+                rents = rents.Where(r => r.Region == region);
+            }
+            if (rooms.HasValue)
+            {
+                rents = rents.Where(r => r.Rooms == rooms);
+            }
+            return await rents.ToListAsync();
         }
+
 
         // GET: api/Rentals/5
         [HttpGet("{id}")]
