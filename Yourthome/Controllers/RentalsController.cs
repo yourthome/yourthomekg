@@ -96,6 +96,8 @@ namespace Yourthome.Controllers
                 Region = rvm.Region,
                 Street = rvm.Street,
                 Rooms = rvm.Rooms,
+                Cost = rvm.Cost,
+                PropertyType = rvm.PropertyType,
                 Description = rvm.Description,
                 Latitude = rvm.Latitude,
                 Longitude = rvm.Longitude

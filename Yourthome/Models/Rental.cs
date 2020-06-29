@@ -12,10 +12,17 @@ namespace Yourthome.Models
         public Region Region { get; set; }
         public string Street { get; set; }
         public int Rooms { get; set; }
+        public int Cost { get; set; }
+        public PropertyType PropertyType { get; set; }
         public string Description { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public List<Photo> Photos { get; set; }
+    }
+    public enum PropertyType
+    {
+        House,
+        Apartment
     }
     public enum Region
     {
