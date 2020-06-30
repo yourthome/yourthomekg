@@ -26,30 +26,34 @@ namespace Yourthome.Controllers
         // GET: api/Rentals
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region,[FromQuery]int? rooms,
-            [FromQuery]PropertyType? property,[FromQuery]Sort? sort)
+            [FromQuery]PropertyType? property,[FromQuery]int? CostrangeStart,[FromQuery] int? CostrangeEnd,[FromQuery]Sort? sort)
         {
             var rents = _context.Rental.AsQueryable();
             if (region.HasValue)
             {
-                rents = rents.Where(r => r.Region == region);
+                rents = rents.Where(r => r.Region == region); //filter by Region
             }
             if (rooms.HasValue)
             {
-                rents = rents.Where(r => r.Rooms == rooms);
+                rents = rents.Where(r => r.Rooms == rooms); //filter by amount of room
             }
             if (property.HasValue)
             {
-                rents = rents.Where(r => r.PropertyType == property);
+                rents = rents.Where(r => r.PropertyType == property); //filter by property type (house or apartment)
+            }
+            if(CostrangeStart.HasValue && CostrangeEnd.HasValue)
+            {
+                rents = rents.Where(r => r.Cost>=CostrangeStart && r.Cost<=CostrangeEnd); // filter in cost range
             }
             if (sort.HasValue)
             {
                 switch(sort)
                 {
                     case Sort.ASC:
-                        rents = rents.OrderBy(r => r.Cost);
+                        rents = rents.OrderBy(r => r.Cost); //sort by cost in ascending order
                         break;
                     case Sort.DESC:
-                        rents = rents.OrderByDescending(r => r.Cost);
+                        rents = rents.OrderByDescending(r => r.Cost); //sort by cost in descending order
                         break;
                 }
             }
