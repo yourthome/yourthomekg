@@ -14,7 +14,10 @@ namespace Yourthome.Models
         public int Rooms { get; set; }
         public int Cost { get; set; }
         public PropertyType PropertyType { get; set; }
+        public RentTime RentTime { get; set; }
         public string Description { get; set; }
+        public string Furniture { get; set; }
+        public string Nearby { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public List<Photo> Photos { get; set; }
@@ -23,6 +26,13 @@ namespace Yourthome.Models
     {
         House,
         Apartment
+    }
+    public enum RentTime
+    {
+        Night,
+        FewDays,
+        Month,
+        Longterm
     }
     public enum Region
     {

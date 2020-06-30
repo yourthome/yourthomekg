@@ -119,6 +119,9 @@ namespace Yourthome.Controllers
                 Rooms = rvm.Rooms,
                 Cost = rvm.Cost,
                 PropertyType = rvm.PropertyType,
+                RentTime = rvm.RentTime,
+                Furniture = rvm.Furniture,
+                Nearby = rvm.Nearby,
                 Description = rvm.Description,
                 Latitude = rvm.Latitude,
                 Longitude = rvm.Longitude
