@@ -242,7 +242,6 @@ D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\runtimes\w
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.csprojAssemblyReference.cache
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.AssemblyInfoInputs.cache
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.AssemblyInfo.cs
-D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cache
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.RazorTargetAssemblyInfo.cache
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.csproj.CopyComplete
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\staticwebassets\Yourthome.StaticWebAssets.Manifest.cache
@@ -250,3 +249,6 @@ D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\staticweba
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.pdb
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.genruntimeconfig.cache
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Npgsql.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cache
