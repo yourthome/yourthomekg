@@ -26,7 +26,8 @@ namespace Yourthome.Controllers
         // GET: api/Rentals
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region,[FromQuery]int? rooms,
-            [FromQuery]PropertyType? property,[FromQuery]int? CostrangeStart,[FromQuery] int? CostrangeEnd,[FromQuery]Sort? sort)
+            [FromQuery]PropertyType? property,[FromQuery]RentTime? renttime,
+            [FromQuery]int? CostrangeStart,[FromQuery] int? CostrangeEnd,[FromQuery]Sort? sort)
         {
             var rents = _context.Rental.AsQueryable();
             if (region.HasValue)
@@ -40,6 +41,10 @@ namespace Yourthome.Controllers
             if (property.HasValue)
             {
                 rents = rents.Where(r => r.PropertyType == property); //filter by property type (house or apartment)
+            }
+            if (renttime.HasValue)
+            {
+                rents = rents.Where(r => r.RentTime == renttime); //filter by rent time 
             }
             if(CostrangeStart.HasValue && CostrangeEnd.HasValue)
             {

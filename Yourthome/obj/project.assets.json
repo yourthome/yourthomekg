@@ -8264,11 +8264,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VisualStudioProjects\\Yourthome\\Yourthome\\Yourthome.csproj",
+      "projectUniqueName": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj",
       "projectName": "Yourthome",
-      "projectPath": "D:\\VisualStudioProjects\\Yourthome\\Yourthome\\Yourthome.csproj",
+      "projectPath": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\VisualStudioProjects\\Yourthome\\Yourthome\\obj\\",
+      "outputPath": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
