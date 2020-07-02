@@ -24,14 +24,20 @@ namespace Yourthome.Models
     }
     public enum PropertyType
     {
+        [Display(Name = "Дом")]
         House,
+        [Display(Name = "Квартира")]
         Apartment
     }
     public enum RentTime
     {
+        [Display(Name = "На ночевку")]
         Night,
+        [Display(Name = "На несколько дней")]
         FewDays,
+        [Display(Name = "На месяц")]
         Month,
+        [Display(Name = "На долгий срок")]
         Longterm
     }
     public enum Region
@@ -55,7 +61,9 @@ namespace Yourthome.Models
     }
     public enum Sort
     {
+        [Display(Name = "По возрастанию")]
         ASC,
+        [Display(Name = "По убыванию")]
         DESC
     }
 }
