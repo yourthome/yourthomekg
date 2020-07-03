@@ -251,4 +251,11 @@ D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.genruntimeconfig.cache
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Npgsql.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cs
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cache
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Yourthome.xml
+D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.xml

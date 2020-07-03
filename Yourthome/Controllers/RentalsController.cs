@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Yourthome.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class RentalsController : ControllerBase
     {
@@ -139,8 +139,10 @@ namespace Yourthome.Controllers
                 _context.SaveChanges();
             }
         }
-
-        // GET: api/Rentals
+        /// <summary>
+        /// Find all rentals
+        /// </summary>
+        // GET: Rentals
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region,[FromQuery]int? rooms,
             [FromQuery]PropertyType? property,[FromQuery]RentTime? renttime,
@@ -182,8 +184,10 @@ namespace Yourthome.Controllers
             return await rents.ToListAsync();
         }
 
-
-        // GET: api/Rentals/5
+        /// <summary>
+        /// Find specific rental by ID
+        /// </summary>
+        // GET: Rentals/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Rental>> GetRental(int id)
         {
@@ -196,8 +200,10 @@ namespace Yourthome.Controllers
 
             return rental;
         }
-
-        // PUT: api/Rentals/5
+        /// <summary>
+        /// Edits specific rental by ID
+        /// </summary>
+        // PUT: Rentals/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
@@ -228,10 +234,12 @@ namespace Yourthome.Controllers
 
             return NoContent();
         }
-
-        // POST: api/Rentals
+        /// <summary>
+        /// Create new rental
+        /// </summary>
+        // POST: Rentals
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
         public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
         {
@@ -268,8 +276,10 @@ namespace Yourthome.Controllers
 
             return CreatedAtAction("GetRental", new { id = rental.RentalID }, rental);
         }
-
-        // DELETE: api/Rentals/5
+        /// <summary>
+        /// Delete specific rental by ID
+        /// </summary>
+        // DELETE: Rentals/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Rental>> DeleteRental(int id)
         {
@@ -281,7 +291,6 @@ namespace Yourthome.Controllers
 
             _context.Rental.Remove(rental);
             await _context.SaveChangesAsync();
-
             return rental;
         }
 
