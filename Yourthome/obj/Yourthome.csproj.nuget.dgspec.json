@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj": {}
+    "C:\\Users\\User\\Source\\Repos\\yourthome\\yourthomekg\\Yourthome\\Yourthome.csproj": {}
   },
   "projects": {
-    "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj": {
+    "C:\\Users\\User\\Source\\Repos\\yourthome\\yourthomekg\\Yourthome\\Yourthome.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Source\\Repos\\yourthome\\yourthomekg\\Yourthome\\Yourthome.csproj",
         "projectName": "Yourthome",
-        "projectPath": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj",
+        "projectPath": "C:\\Users\\User\\Source\\Repos\\yourthome\\yourthomekg\\Yourthome\\Yourthome.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\obj\\",
+        "outputPath": "C:\\Users\\User\\Source\\Repos\\yourthome\\yourthomekg\\Yourthome\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -84,6 +84,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.2, 3.1.2]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
