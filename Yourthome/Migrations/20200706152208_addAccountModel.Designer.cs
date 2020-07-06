@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Yourthome.Data;
@@ -9,9 +10,10 @@ using Yourthome.Data;
 namespace Yourthome.Migrations
 {
     [DbContext(typeof(YourthomeContext))]
-    partial class YourthomeContextModelSnapshot : ModelSnapshot
+    [Migration("20200706152208_addAccountModel")]
+    partial class addAccountModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,32 +54,6 @@ namespace Yourthome.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("Yourthome.Models.Booking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("CheckInDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("EvictionDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("GuestName")
-                        .HasColumnType("text");
-
-                    b.Property<int>("RentalId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RentalId");
-
-                    b.ToTable("Booking");
-                });
-
             modelBuilder.Entity("Yourthome.Models.Photo", b =>
                 {
                     b.Property<int>("PhotoID")
@@ -104,9 +80,6 @@ namespace Yourthome.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AccountId")
-                        .HasColumnType("integer");
 
                     b.Property<int>("Cost")
                         .HasColumnType("integer");
@@ -143,18 +116,7 @@ namespace Yourthome.Migrations
 
                     b.HasKey("RentalID");
 
-                    b.HasIndex("AccountId");
-
                     b.ToTable("Rental");
-                });
-
-            modelBuilder.Entity("Yourthome.Models.Booking", b =>
-                {
-                    b.HasOne("Yourthome.Models.Rental", "Rental")
-                        .WithMany("Bookings")
-                        .HasForeignKey("RentalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Yourthome.Models.Photo", b =>
@@ -162,15 +124,6 @@ namespace Yourthome.Migrations
                     b.HasOne("Yourthome.Models.Rental", "Rental")
                         .WithMany("Photos")
                         .HasForeignKey("RentalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Yourthome.Models.Rental", b =>
-                {
-                    b.HasOne("Yourthome.Models.Account", "Account")
-                        .WithMany("Rentals")
-                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

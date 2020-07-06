@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Yourthome.Data;
@@ -9,9 +10,10 @@ using Yourthome.Data;
 namespace Yourthome.Migrations
 {
     [DbContext(typeof(YourthomeContext))]
-    partial class YourthomeContextModelSnapshot : ModelSnapshot
+    [Migration("20200706152815_addColumnAccountsTable")]
+    partial class addColumnAccountsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,32 +52,6 @@ namespace Yourthome.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("Yourthome.Models.Booking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("CheckInDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("EvictionDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("GuestName")
-                        .HasColumnType("text");
-
-                    b.Property<int>("RentalId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RentalId");
-
-                    b.ToTable("Booking");
                 });
 
             modelBuilder.Entity("Yourthome.Models.Photo", b =>
@@ -146,15 +122,6 @@ namespace Yourthome.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("Rental");
-                });
-
-            modelBuilder.Entity("Yourthome.Models.Booking", b =>
-                {
-                    b.HasOne("Yourthome.Models.Rental", "Rental")
-                        .WithMany("Bookings")
-                        .HasForeignKey("RentalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Yourthome.Models.Photo", b =>

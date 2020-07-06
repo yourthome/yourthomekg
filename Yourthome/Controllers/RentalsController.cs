@@ -9,6 +9,7 @@ using Yourthome.Data;
 using Yourthome.Models;
 using Yourthome.ViewModel;
 using System.IO;
+using Microsoft.VisualBasic;
 
 namespace Yourthome.Controllers
 {
@@ -21,120 +22,144 @@ namespace Yourthome.Controllers
         public RentalsController(YourthomeContext context)
         {
             _context = context;
-            if(!_context.Rental.Any())
+           
+
+            if (!_context.Rental.Any())
             {
                 #region fillDB
-                _context.Rental.Add(new Rental {Region=Region.Ik,Street="Cholponatinskaya",Cost=1500,Rooms=3,PropertyType=PropertyType.House,
-                RentTime=RentTime.FewDays,Description="hata top4ik otve4au",Furniture="TV Tubzik Duw SonyPl4 3krovati",Nearby="plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Bishkek,
-                    Street = "Cholpon",
-                    Cost = 2500,
-                    Rooms = 4,
-                    PropertyType = PropertyType.House,
-                    RentTime = RentTime.FewDays,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Ik,
-                    Street = "Tutusheva",
-                    Cost = 3000,
-                    Rooms = 5,
-                    PropertyType = PropertyType.House,
-                    RentTime = RentTime.FewDays,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Bishkek,
-                    Street = "Soviet",
-                    Cost = 12500,
-                    Rooms = 3,
-                    PropertyType = PropertyType.Apartment,
-                    RentTime = RentTime.Longterm,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Bishkek,
-                    Street = "Gapar Aitiev",
-                    Cost = 14500,
-                    Rooms = 1,
-                    PropertyType = PropertyType.Apartment,
-                    RentTime = RentTime.FewDays,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Ik,
-                    Street = "Cholponaqgq",
-                    Cost = 3500,
-                    Rooms = 2,
-                    PropertyType = PropertyType.House,
-                    RentTime = RentTime.Night,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Ik,
-                    Street = "Alieva",
-                    Cost = 6500,
-                    Rooms = 7,
-                    PropertyType = PropertyType.House,
-                    RentTime = RentTime.FewDays,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Bishkek,
-                    Street = "7aprelya",
-                    Cost = 1500,
-                    Rooms = 3,
-                    PropertyType = PropertyType.Apartment,
-                    RentTime = RentTime.FewDays,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Ik,
-                    Street = "Balykina",
-                    Cost = 1500,
-                    Rooms = 1,
-                    PropertyType = PropertyType.Apartment,
-                    RentTime = RentTime.Night,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
-                _context.Rental.Add(new Rental
-                {
-                    Region = Region.Ik,
-                    Street = "Cholponatinskaya",
-                    Cost = 1500,
-                    Rooms = 3,
-                    PropertyType = PropertyType.House,
-                    RentTime = RentTime.FewDays,
-                    Description = "hata top4ik otve4au",
-                    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                    Nearby = "plyaj i bar",
-                });
+                //_context.Rental.Add(new Rental
+                //{
+                //    Region = Region.Ik,
+                //    Street = "Cholponatinskaya",
+                //    Cost = 1500,
+                //    Rooms = 3,
+                //    PropertyType = PropertyType.House,
+                //    RentTime = RentTime.FewDays,
+                //    Description = "hata top4ik otve4au",
+                //    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                //    Nearby = "plyaj i bar",
+                //    AccountId = 3,
+                //});
+                //_context.Rental.Add(new Rental
+                //{
+                //    Region = Region.Bishkek,
+                //    Street = "Cholpon",
+                //    Cost = 2500,
+                //    Rooms = 4,
+                //    PropertyType = PropertyType.House,
+                //    RentTime = RentTime.FewDays,
+                //    Description = "hata top4ik otve4au",
+                //    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                //    Nearby = "plyaj i bar",
+                //    AccountId = 3,
+
+                //});
+
+
+
+                ////_context.Rental.Add(new Rental
+                ////{
+                ////    Region = Region.Ik,
+                ////    Street = "Tutusheva",
+                ////    Cost = 3000,
+                ////    Rooms = 5,
+                ////    PropertyType = PropertyType.House,
+                ////    RentTime = RentTime.FewDays,
+                ////    Description = "hata top4ik otve4au",
+                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                ////    Nearby = "plyaj i bar",
+                ////    AccountId = 1,
+                ////});
+                ////_context.Rental.Add(new Rental
+                ////{
+                ////    Region = Region.Bishkek,
+                ////    Street = "Soviet",
+                ////    Cost = 12500,
+                ////    Rooms = 3,
+                ////    PropertyType = PropertyType.Apartment,
+                ////    RentTime = RentTime.Longterm,
+                ////    Description = "hata top4ik otve4au",
+                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                ////    Nearby = "plyaj i bar",
+                ////    AccountId = 3,
+                ////});
+                ////_context.Rental.Add(new Rental
+                ////{
+                ////    Region = Region.Bishkek,
+                ////    Street = "Gapar Aitiev",
+                ////    Cost = 14500,
+                ////    Rooms = 1,
+                ////    PropertyType = PropertyType.Apartment,
+                ////    RentTime = RentTime.FewDays,
+                ////    Description = "hata top4ik otve4au",
+                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                ////    Nearby = "plyaj i bar",
+                ////    AccountId = 1,
+                ////});
+                ////_context.Rental.Add(new Rental
+                ////{
+                ////    Region = Region.Ik,
+                ////    Street = "Cholponaqgq",
+                ////    Cost = 3500,
+                ////    Rooms = 2,
+                ////    PropertyType = PropertyType.House,
+                ////    RentTime = RentTime.Night,
+                ////    Description = "hata top4ik otve4au",
+                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                ////    Nearby = "plyaj i bar",
+                ////    AccountId = 1,
+                ////});
+                ////_context.Rental.Add(new Rental
+                ////{
+                ////    Region = Region.Ik,
+                ////    Street = "Alieva",
+                ////    Cost = 6500,
+                ////    Rooms = 7,
+                ////    PropertyType = PropertyType.House,
+                ////    RentTime = RentTime.FewDays,
+                ////    Description = "hata top4ik otve4au",
+                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                ////    Nearby = "plyaj i bar",
+                ////});
+                ////_context.Rental.Add(new Rental
+                ////{
+                ////    Region = Region.Bishkek,
+                ////    Street = "7aprelya",
+                ////    Cost = 1500,
+                ////    Rooms = 3,
+                ////    PropertyType = PropertyType.Apartment,
+                ////    RentTime = RentTime.FewDays,
+                ////    Description = "hata top4ik otve4au",
+                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                ////    Nearby = "plyaj i bar",
+                ////    AccountId = 1,
+                ////});
+                ////_context.Rental.Add(new Rental
+                ////{
+                ////    Region = Region.Ik,
+                ////    Street = "Balykina",
+                ////    Cost = 1500,
+                ////    Rooms = 1,
+                ////    PropertyType = PropertyType.Apartment,
+                ////    RentTime = RentTime.Night,
+                ////    Description = "hata top4ik otve4au",
+                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                ////    Nearby = "plyaj i bar",
+                ////    AccountId = 1,
+                ////});
+                ////_context.Rental.Add(new Rental
+                ////{
+                ////    Region = Region.Ik,
+                ////    Street = "Cholponatinskaya",
+                ////    Cost = 1500,
+                ////    Rooms = 3,
+                ////    PropertyType = PropertyType.House,
+                ////    RentTime = RentTime.FewDays,
+                ////    Description = "hata top4ik otve4au",
+                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
+                ////    Nearby = "plyaj i bar",
+                ////    AccountId = 1,
+                ////});
                 #endregion
                 _context.SaveChanges();
             }
@@ -298,7 +323,14 @@ namespace Yourthome.Controllers
         {
             return _context.Rental.Any(e => e.RentalID == id);
         }
+
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Rental>>> Rental_List([FromQuery] Region? region, [FromQuery] int? rooms,
+        //    [FromQuery] PropertyType? property, [FromQuery] RentTime? renttime)
+        //{
+            
+        //    return await _context.Rental.ToListAsync();
+        //}
     }
 }
 
-/// привiт
