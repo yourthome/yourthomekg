@@ -16,5 +16,7 @@ namespace Yourthome.Data
         }
         public DbSet<Rental> Rental { get; set; }
         public DbSet<Photo> Photo { get; set; }
+
+        public DbSet<Account> Accounts { get; set; }
     }
 }
