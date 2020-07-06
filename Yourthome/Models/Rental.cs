@@ -20,7 +20,13 @@ namespace Yourthome.Models
         public string Nearby { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+
         public List<Photo> Photos { get; set; }
+
+        public int AccountId { get; set; }
+        public Account Account { get; set; }
+        public List<Booking> Bookings { get; set; }
+             
     }
     public enum PropertyType
     {

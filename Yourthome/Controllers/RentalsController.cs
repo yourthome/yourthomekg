@@ -9,6 +9,7 @@ using Yourthome.Data;
 using Yourthome.Models;
 using Yourthome.ViewModel;
 using System.IO;
+using Microsoft.VisualBasic;
 
 namespace Yourthome.Controllers
 {
@@ -298,7 +299,14 @@ namespace Yourthome.Controllers
         {
             return _context.Rental.Any(e => e.RentalID == id);
         }
+
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Rental>>> Rental_List([FromQuery] Region? region, [FromQuery] int? rooms,
+        //    [FromQuery] PropertyType? property, [FromQuery] RentTime? renttime)
+        //{
+            
+        //    return await _context.Rental.ToListAsync();
+        //}
     }
 }
 
-/// привiт
