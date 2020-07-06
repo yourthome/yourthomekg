@@ -19,6 +19,7 @@ namespace Yourthome.Models
 
         public string Password { get; set; }
     
+        public List<Rental> Rentals { get; set; }
     }
 
     public enum Gender

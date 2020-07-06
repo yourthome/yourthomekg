@@ -22,7 +22,8 @@ namespace Yourthome.Models
         public decimal Longitude { get; set; }
 
         public List<Photo> Photos { get; set; }
-
+        public int AccountId { get; set; }
+        public Account Account { get; set; }
        
     }
     public enum PropertyType
