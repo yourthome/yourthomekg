@@ -28,9 +28,10 @@ namespace Yourthome.Controllers
         /// </summary>
         // GET: Rentals
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region,[FromQuery]int? rooms,
-            [FromQuery]PropertyType? property,[FromQuery]RentTime? renttime,
-            [FromQuery]int? CostrangeStart,[FromQuery] int? CostrangeEnd,[FromQuery]Sort? sort)
+        public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region, [FromQuery]int? rooms,
+            [FromQuery]PropertyType? property, [FromQuery]RentTime? renttime,
+            [FromQuery]int? CostrangeStart, [FromQuery] int? CostrangeEnd, [FromQuery]FacFilter facfilter,
+            [FromQuery]InfraFilter infrafilter, [FromQuery]Sort? sort)
         {
             var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).AsQueryable();
             if (region.HasValue)
@@ -53,6 +54,21 @@ namespace Yourthome.Controllers
             {
                 rents = rents.Where(r => r.Cost>=CostrangeStart && r.Cost<=CostrangeEnd); // filter in cost range
             }
+            if (facfilter.Internet != null && facfilter.AirConditioning != null)
+            {
+                rents = rents.Where(r => r.Facilities.AirConditioning == facfilter.AirConditioning && r.Facilities.Internet == facfilter.Internet
+                && r.Facilities.Phone == facfilter.Phone && r.Facilities.Washer == facfilter.Washer
+                && r.Facilities.Refrigerator == facfilter.Refrigerator && r.Facilities.Balcony == facfilter.Balcony
+                && r.Facilities.Kitchen == facfilter.Kitchen && r.Facilities.TV == facfilter.TV
+                && r.Facilities.Internet == facfilter.Internet);
+            }
+            if (infrafilter.Cafe != null && infrafilter.Hospital != null)
+            {
+                rents = rents.Where(r => r.Infrastructure.BusStop == infrafilter.BusStop && r.Infrastructure.Parking == infrafilter.Parking
+                && r.Infrastructure.Kindergarten == infrafilter.Kindergarten && r.Infrastructure.Cafe == infrafilter.Cafe
+                && r.Infrastructure.Supermarket == infrafilter.Supermarket && r.Infrastructure.Park == infrafilter.Park
+                && r.Infrastructure.Hospital == infrafilter.Hospital);
+            }                    
             if (sort.HasValue)
             {
                 switch(sort)
@@ -81,7 +97,6 @@ namespace Yourthome.Controllers
             {
                 return NotFound();
             }
-
             return rental;
         }
         /// <summary>
