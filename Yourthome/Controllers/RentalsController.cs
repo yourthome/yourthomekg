@@ -33,7 +33,8 @@ namespace Yourthome.Controllers
             [FromQuery]int? CostrangeStart, [FromQuery] int? CostrangeEnd, [FromQuery]FacFilter facfilter,
             [FromQuery]InfraFilter infrafilter, [FromQuery]Sort? sort)
         {
-            var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).AsQueryable();
+            var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
+                Include(r => r.Bookings).AsQueryable();
             if (region.HasValue)
             {
                 rents = rents.Where(r => r.Region == region); //filter by Region
@@ -92,7 +93,7 @@ namespace Yourthome.Controllers
         public async Task<ActionResult<Rental>> GetRental(int id)
         {
             var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-                SingleOrDefaultAsync(r => r.RentalID == id);
+                Include(r=>r.Bookings).SingleOrDefaultAsync(r => r.RentalID == id);
             if (rental == null)
             {
                 return NotFound();
@@ -130,7 +131,6 @@ namespace Yourthome.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
         /// <summary>

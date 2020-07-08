@@ -23,7 +23,7 @@ namespace Yourthome.Models
         public List<Photo> Photos { get; set; }
         //public int AccountID { get; set; }
         //public Account Account { get; set; }
-        //public List<Booking> Bookings { get; set; }
+        public List<Booking> Bookings { get; set; }
        
     }
     public enum PropertyType

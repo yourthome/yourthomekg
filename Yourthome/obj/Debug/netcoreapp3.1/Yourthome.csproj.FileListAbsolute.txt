@@ -543,3 +543,5 @@ D:\VisualStudioProjects\Yourthomemain\yourthomekg\Yourthome\obj\Debug\netcoreapp
 D:\VisualStudioProjects\Yourthomemain\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 D:\VisualStudioProjects\Yourthomemain\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\VisualStudioProjects\Yourthomemain\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+D:\VisualStudioProjects\Yourthomemain\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cs
+D:\VisualStudioProjects\Yourthomemain\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cache

@@ -72,11 +72,9 @@ namespace Yourthome
                 c.RoutePrefix = string.Empty;
             });
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -8,8 +8,8 @@ namespace Yourthome.Models
     public class Booking
     {
         public int BookingID { get; set; }
-        //public int RentalID { get; set; }
-        //public Rental Rental { get; set; }
+        public int RentalID { get; set; }
+        public Rental Rental { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime EvictionDate { get; set; }
         public string GuestName { get; set; }
