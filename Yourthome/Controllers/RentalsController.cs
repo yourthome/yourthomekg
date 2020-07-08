@@ -32,7 +32,7 @@ namespace Yourthome.Controllers
             [FromQuery]PropertyType? property,[FromQuery]RentTime? renttime,
             [FromQuery]int? CostrangeStart,[FromQuery] int? CostrangeEnd,[FromQuery]Sort? sort)
         {
-            var rents = _context.Rental.AsQueryable();
+            var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).AsQueryable();
             if (region.HasValue)
             {
                 rents = rents.Where(r => r.Region == region); //filter by Region
@@ -75,8 +75,8 @@ namespace Yourthome.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Rental>> GetRental(int id)
         {
-            var rental = await _context.Rental.FindAsync(id);
-
+            var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
+                SingleOrDefaultAsync(r => r.RentalID == id);
             if (rental == null)
             {
                 return NotFound();
@@ -136,7 +136,9 @@ namespace Yourthome.Controllers
                 RentTime = rvm.RentTime,
                 Description = rvm.Description,
                 Latitude = rvm.Latitude,
-                Longitude = rvm.Longitude
+                Longitude = rvm.Longitude,
+                Facilities = rvm.Facilities,
+                Infrastructure = rvm.Infrastructure
             };
             if(rvm.Photos!=null)
             {

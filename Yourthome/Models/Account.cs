@@ -17,7 +17,7 @@ namespace Yourthome.Models
         public DateTime BirthDate { get; set; }
         public string Password { get; set; }
         //public Avatar Avatar { get; set; }
-        public List<Rental> Rentals { get; set; }
+        //public List<Rental> Rentals { get; set; }
     }
 
     public enum Gender

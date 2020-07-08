@@ -21,9 +21,9 @@ namespace Yourthome.Models
         public Facilities Facilities { get; set; }
         public Infrastructure Infrastructure { get; set; }
         public List<Photo> Photos { get; set; }
-        public int AccountID { get; set; }
-        public Account Account { get; set; }
-        public List<Booking> Bookings { get; set; }
+        //public int AccountID { get; set; }
+        //public Account Account { get; set; }
+        //public List<Booking> Bookings { get; set; }
        
     }
     public enum PropertyType
