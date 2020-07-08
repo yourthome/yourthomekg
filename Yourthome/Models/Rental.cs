@@ -16,15 +16,13 @@ namespace Yourthome.Models
         public PropertyType PropertyType { get; set; }
         public RentTime RentTime { get; set; }
         public string Description { get; set; }
-        public string Furniture { get; set; }
-        public string Nearby { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-
+        public Facilities Facilities { get; set; }
+        public Infrastructure Infrastructure { get; set; }
         public List<Photo> Photos { get; set; }
-        public int AccountId { get; set; }
+        public int AccountID { get; set; }
         public Account Account { get; set; }
-
         public List<Booking> Bookings { get; set; }
        
     }
