@@ -24,7 +24,6 @@ namespace Yourthome.Models
         //public int AccountID { get; set; }
         //public Account Account { get; set; }
         public List<Booking> Bookings { get; set; }
-       
     }
     public enum PropertyType
     {

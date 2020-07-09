@@ -9,7 +9,6 @@ using Yourthome.Data;
 using Yourthome.Models;
 using Yourthome.ViewModel;
 using System.IO;
-using Microsoft.VisualBasic;
 
 namespace Yourthome.Controllers
 {
@@ -34,7 +33,8 @@ namespace Yourthome.Controllers
             [FromQuery]InfraFilter infrafilter, [FromQuery]Sort? sort)
         {
             var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-                Include(r => r.Bookings).AsQueryable();
+                Include(r => r.Bookings).
+                AsQueryable();
             if (region.HasValue)
             {
                 rents = rents.Where(r => r.Region == region); //filter by Region
@@ -93,7 +93,8 @@ namespace Yourthome.Controllers
         public async Task<ActionResult<Rental>> GetRental(int id)
         {
             var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-                Include(r=>r.Bookings).SingleOrDefaultAsync(r => r.RentalID == id);
+                Include(r=>r.Bookings)
+                .SingleOrDefaultAsync(r => r.RentalID == id);
             if (rental == null)
             {
                 return NotFound();
@@ -113,9 +114,13 @@ namespace Yourthome.Controllers
             {
                 return BadRequest();
             }
-
             _context.Entry(rental).State = EntityState.Modified;
-
+            _context.Entry(rental.Facilities).State = EntityState.Modified;
+            _context.Entry(rental.Infrastructure).State = EntityState.Modified;
+            foreach (var i in rental.Bookings)
+            {
+                _context.Entry(i).State = EntityState.Modified;
+            }
             try
             {
                 await _context.SaveChangesAsync();
@@ -153,7 +158,8 @@ namespace Yourthome.Controllers
                 Latitude = rvm.Latitude,
                 Longitude = rvm.Longitude,
                 Facilities = rvm.Facilities,
-                Infrastructure = rvm.Infrastructure
+                Infrastructure = rvm.Infrastructure,
+                Bookings = rvm.Bookings
             };
             if(rvm.Photos!=null)
             {
