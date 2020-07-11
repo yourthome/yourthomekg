@@ -147,6 +147,10 @@ namespace Yourthome.Controllers
         [HttpPost]
         public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
         {
+            for(int i=0;i<10;i++)
+            {
+                rvm.Bookings.Add(new Booking() {GuestName=$"Guest{i}" });
+            }
             Rental rental = new Rental {
                 Region = rvm.Region,
                 Street = rvm.Street,
