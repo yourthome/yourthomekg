@@ -145,8 +145,9 @@ namespace Yourthome.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
-        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
+
             for(int i=0;i<10;i++)
             {
                 rvm.Bookings.Add(new Booking() {GuestName=$"Guest{i}" });
@@ -163,11 +164,11 @@ namespace Yourthome.Controllers
                 Longitude = rvm.Longitude,
                 Facilities = rvm.Facilities,
                 Infrastructure = rvm.Infrastructure,
-                Bookings = rvm.Bookings
+                Bookings = rvm.Bookings,
+                Photos = new List<Photo>()
             };
             if(rvm.Photos!=null)
             {
-                int count = 0;
                 foreach (var img in rvm.Photos)
                 {
                     byte[] ImageData = null;
@@ -176,8 +177,7 @@ namespace Yourthome.Controllers
                         ImageData = binaryReader.ReadBytes((int)img.Length);
                     }
                     // установка массива байтов
-                    rental.Photos[count].Image = ImageData;
-                    count++;
+                    rental.Photos.Add(new Photo {Image=ImageData });
                 }              
             }
             _context.Rental.Add(rental);
