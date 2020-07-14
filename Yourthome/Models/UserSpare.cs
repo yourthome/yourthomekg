@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Yourthome.Models
 {
-    public class Account
+    public class UserSpare
     {
-        public int AccountID { get; set; }
+        public int UserID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public int Phone { get; set; }

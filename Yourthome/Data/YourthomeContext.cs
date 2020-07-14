@@ -18,7 +18,6 @@ namespace Yourthome.Data
         public DbSet<Photo> Photo { get; set; }
         public DbSet<Facilities> Facilities { get; set; }
         public DbSet<Infrastructure> Infrastructure { get; set; }
-        public DbSet<Account> Accounts { get; set; }
         public DbSet<Booking> Bookings { get; set; }
     }
 }

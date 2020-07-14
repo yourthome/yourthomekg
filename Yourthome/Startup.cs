@@ -39,10 +39,9 @@ namespace Yourthome
             // устанавливаем контекст данных
             services.AddDbContext<YourthomeContext>(options => options.UseSqlServer(con));*/
             services.AddEntityFrameworkNpgsql().AddDbContext<YourthomeContext>(opt =>
-            opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
+                opt.UseNpgsql(Configuration.GetConnectionString("MyWebApiConection")));
             services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSwaggerGen(c=>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -51,10 +50,10 @@ namespace Yourthome
                     Title="Yourthome",
                     Description="Simple documentation for ASP.NET CORE API"
                 });
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                    // Set the comments path for the Swagger JSON and UI.
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    c.IncludeXmlComments(xmlPath);
             });
         }
 
