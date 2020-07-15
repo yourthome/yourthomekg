@@ -9,6 +9,7 @@ using Yourthome.Data;
 using Yourthome.Models;
 using Yourthome.ViewModel;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Yourthome.Controllers
 {
@@ -108,6 +109,7 @@ namespace Yourthome.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> PutRental(int id, Rental rental)
         {
             if (id != rental.RentalID)
@@ -145,9 +147,10 @@ namespace Yourthome.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
-
+            
             for(int i=0;i<10;i++)
             {
                 rvm.Bookings.Add(new Booking() {GuestName=$"Guest{i}" });
@@ -190,6 +193,7 @@ namespace Yourthome.Controllers
         /// </summary>
         // DELETE: Rentals/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<Rental>> DeleteRental(int id)
         {
             var rental = await _context.Rental.FindAsync(id);

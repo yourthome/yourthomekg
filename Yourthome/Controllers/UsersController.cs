@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
 using Yourthome.Helpers;
 using Yourthome.Models;
 using Yourthome.Models.ViewModel;
@@ -17,7 +17,6 @@ using Yourthome.Services;
 
 namespace Yourthome.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase
@@ -36,7 +35,6 @@ namespace Yourthome.Controllers
             _appSettings = appSettings.Value;
         }
 
-        [AllowAnonymous]
         [Microsoft.AspNetCore.Mvc.HttpPost("authenticate")]
         public IActionResult Authenticate([System.Web.Http.FromBody]AuthenticateModel model)
         {
@@ -51,7 +49,8 @@ namespace Yourthome.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -66,6 +65,7 @@ namespace Yourthome.Controllers
                 Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Role = user.Role,
                 Token = tokenString
             });
         }
@@ -91,6 +91,7 @@ namespace Yourthome.Controllers
         }
 
         [Microsoft.AspNetCore.Mvc.HttpGet]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
         {
             var users = _userService.GetAll();
@@ -99,6 +100,7 @@ namespace Yourthome.Controllers
         }
 
         [Microsoft.AspNetCore.Mvc.HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetById(int id)
         {
             var user = _userService.GetById(id);
@@ -107,6 +109,7 @@ namespace Yourthome.Controllers
         }
 
         [Microsoft.AspNetCore.Mvc.HttpPut("{id}")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult Update(int id, [System.Web.Http.FromBody]UpdateModel model)
         {
             // map model to entity and set id
@@ -127,6 +130,7 @@ namespace Yourthome.Controllers
         }
 
         [Microsoft.AspNetCore.Mvc.HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Delete(int id)
         {
             _userService.Delete(id);

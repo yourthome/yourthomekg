@@ -10,6 +10,7 @@ namespace Yourthome.Services
 {
     public interface IUserService
     {
+        void CreateAdmin();
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
         User GetById(int id);
@@ -17,16 +18,30 @@ namespace Yourthome.Services
         void Update(User user, string password = null);
         void Delete(int id);
     }
-
     public class UserService : IUserService
     {
         private YourthomeContext _context;
-
         public UserService(YourthomeContext context)
         {
             _context = context;
+            CreateAdmin();
         }
-
+        public void CreateAdmin()
+        {
+            var user = _context.Users.SingleOrDefault(u => u.Id == 1);
+            if (user == null)
+            {
+                User admin = new User { FirstName = "Admin", LastName = "Adminov", Username = "adminbratan" };
+                byte[] passwordHash, passwordSalt;
+                string password = "neugadaew";
+                CreatePasswordHash(password, out passwordHash, out passwordSalt);
+                admin.PasswordHash = passwordHash;
+                admin.PasswordSalt = passwordSalt;
+                admin.Role = Role.Admin;
+                _context.Users.Add(admin);
+                _context.SaveChanges();
+            }     
+        }
         public User Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -70,6 +85,7 @@ namespace Yourthome.Services
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.Role = Role.User;
 
             _context.Users.Add(user);
             _context.SaveChanges();

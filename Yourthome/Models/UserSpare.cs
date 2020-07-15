@@ -20,14 +20,5 @@ namespace Yourthome.Models
         //public List<Rental> Rentals { get; set; }
     }
 
-    public enum Gender
-    {
-
-        [Display(Name = "Мужской")]
-        Male,
-
-        [Display(Name = "Женский")]
-        Female,
-
-    }
+   
 }
