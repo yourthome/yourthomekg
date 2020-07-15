@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Yourthome.Data;
@@ -9,9 +10,10 @@ using Yourthome.Data;
 namespace Yourthome.Migrations
 {
     [DbContext(typeof(YourthomeContext))]
-    partial class YourthomeContextModelSnapshot : ModelSnapshot
+    [Migration("20200715042955_tryavatar")]
+    partial class tryavatar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,7 +194,7 @@ namespace Yourthome.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<byte[]>("AvatarStored")
+                    b.Property<byte[]>("Avatar")
                         .HasColumnType("bytea");
 
                     b.Property<DateTime>("BirthDate")

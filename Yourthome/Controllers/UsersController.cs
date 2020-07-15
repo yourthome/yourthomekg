@@ -14,6 +14,7 @@ using Yourthome.Helpers;
 using Yourthome.Models;
 using Yourthome.Models.ViewModel;
 using Yourthome.Services;
+using System.IO;
 
 namespace Yourthome.Controllers
 {
@@ -72,11 +73,20 @@ namespace Yourthome.Controllers
 
         [AllowAnonymous]
         [Microsoft.AspNetCore.Mvc.HttpPost("register")]
-        public IActionResult Register([System.Web.Http.FromBody]RegisterModel model)
+        public IActionResult Register([FromForm]RegisterModel model)
         {
             // map model to entity
             var user = _mapper.Map<User>(model);
-
+            if (user.Avatar != null)
+            {
+                byte[] ImageData = null;
+                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
+                {
+                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
+                }
+                // установка массива байтов
+                user.AvatarStored = ImageData;
+            }
             try
             {
                 // create user
@@ -110,12 +120,21 @@ namespace Yourthome.Controllers
 
         [Microsoft.AspNetCore.Mvc.HttpPut("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public IActionResult Update(int id, [System.Web.Http.FromBody]UpdateModel model)
+        public IActionResult Update(int id, [FromForm]UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
             user.Id = id;
-
+            if (user.Avatar != null)
+            {
+                byte[] ImageData = null;
+                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
+                {
+                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
+                }
+                // установка массива байтов
+                user.AvatarStored = ImageData;
+            }
             try
             {
                 // update user 

@@ -11,5 +11,6 @@ namespace Yourthome.Models.ViewModel
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
+        public byte[] AvatarStored { get; set; }
     }
 }
