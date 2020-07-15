@@ -9,8 +9,8 @@ namespace Yourthome.Models
     public class Rental
     {
         public int RentalID { get; set; }
-        //public int UserID { get; set; }
-        //public User User { get; set; }
+        public int UserID { get; set; }
+        public User User { get; set; }
         public Region Region { get; set; }
         public string Street { get; set; }
         public int Rooms { get; set; }
@@ -22,9 +22,7 @@ namespace Yourthome.Models
         public decimal Longitude { get; set; }
         public Facilities Facilities { get; set; }
         public Infrastructure Infrastructure { get; set; }
-        public List<Photo> Photos { get; set; }
-        //public int AccountID { get; set; }
-        //public Account Account { get; set; }
+        public List<Photo> Photos { get; set; }       
         public List<Booking> Bookings { get; set; }
     }
     public enum PropertyType

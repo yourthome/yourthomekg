@@ -19,7 +19,7 @@
             Edits specific rental by ID
             </summary>
         </member>
-        <member name="M:Yourthome.Controllers.RentalsController.PostRental(Yourthome.ViewModel.RentalViewModel)">
+        <member name="M:Yourthome.Controllers.RentalsController.PostRental(System.Int32,Yourthome.ViewModel.RentalViewModel)">
             <summary>
             Create new rental
             </summary>

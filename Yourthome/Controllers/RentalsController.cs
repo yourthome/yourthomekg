@@ -148,14 +148,14 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
-        {
-            
+        public async Task<ActionResult<Rental>> PostRental(int userid, [FromForm]RentalViewModel rvm)
+        {           
             for(int i=0;i<10;i++)
             {
                 rvm.Bookings.Add(new Booking() {GuestName=$"Guest{i}" });
             }
             Rental rental = new Rental {
+                UserID = userid, //or connect like user = context.user.get(userid) and add include to user
                 Region = rvm.Region,
                 Street = rvm.Street,
                 Rooms = rvm.Rooms,

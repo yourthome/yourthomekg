@@ -21,12 +21,7 @@ namespace Yourthome.ViewModel
         public Facilities Facilities { get; set; }
         public Infrastructure Infrastructure { get; set; }
         public List<IFormFile> Photos { get; set; }
-        public List<Booking> Bookings { get; set; }
-        public RentalViewModel()
-        {
-            Bookings = new List<Booking> { };
-        }
-        
+        public List<Booking> Bookings { get; set; } = new List<Booking> { };       
     }
     
 }
