@@ -37,7 +37,7 @@ namespace Yourthome.Controllers
         }
 
         [Microsoft.AspNetCore.Mvc.HttpPost("authenticate")]
-        public IActionResult Authenticate([System.Web.Http.FromBody]AuthenticateModel model)
+        public IActionResult Authenticate([FromForm]AuthenticateModel model)
         {
             var user = _userService.Authenticate(model.Username, model.Password);
 
@@ -120,7 +120,7 @@ namespace Yourthome.Controllers
 
         [Microsoft.AspNetCore.Mvc.HttpPut("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public IActionResult Update(int id, [FromForm]UpdateModel model)
+        public IActionResult Update(int id,[FromForm]UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);

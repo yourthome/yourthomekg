@@ -9,6 +9,8 @@ namespace Yourthome.Models
     public class Rental
     {
         public int RentalID { get; set; }
+        //public int UserID { get; set; }
+        //public User User { get; set; }
         public Region Region { get; set; }
         public string Street { get; set; }
         public int Rooms { get; set; }

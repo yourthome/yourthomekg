@@ -23,6 +23,7 @@ namespace Yourthome.Models
         public IFormFile Avatar { get; set; }
         public byte[] AvatarStored { get; set; }
         public string Role { get; set; }
+        //public List<Rental> Posts { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
     }
