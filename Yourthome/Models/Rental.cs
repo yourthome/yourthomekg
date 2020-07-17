@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Yourthome.Models
 {
@@ -10,6 +11,7 @@ namespace Yourthome.Models
     {
         public int RentalID { get; set; }
         public int UserID { get; set; }
+        [JsonIgnore]
         public User User { get; set; }
         public Region Region { get; set; }
         public string Street { get; set; }

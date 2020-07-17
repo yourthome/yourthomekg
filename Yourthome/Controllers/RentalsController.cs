@@ -110,9 +110,9 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> PutRental(int id, Rental rental)
+        public async Task<IActionResult> PutRental(int Id, Rental rental)
         {
-            if (id != rental.RentalID)
+            if (Id != rental.RentalID)
             {
                 return BadRequest();
             }
@@ -129,7 +129,7 @@ namespace Yourthome.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RentalExists(id))
+                if (!RentalExists(Id))
                 {
                     return NotFound();
                 }
@@ -149,12 +149,13 @@ namespace Yourthome.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<Rental>> PostRental(int userid, [FromForm]RentalViewModel rvm)
-        {           
-            for(int i=0;i<10;i++)
+        {
+            for (int i = 0; i < 10; i++)
             {
-                rvm.Bookings.Add(new Booking() {GuestName=$"Guest{i}" });
+                rvm.Bookings.Add(new Booking() { GuestName = $"Guest{i}" });
             }
-            Rental rental = new Rental {
+            Rental rental = new Rental
+            {
                 UserID = userid, //or connect like user = context.user.get(userid) and add include to user
                 Region = rvm.Region,
                 Street = rvm.Street,
@@ -170,7 +171,7 @@ namespace Yourthome.Controllers
                 Bookings = rvm.Bookings,
                 Photos = new List<Photo>()
             };
-            if(rvm.Photos!=null)
+            if (rvm.Photos != null)
             {
                 foreach (var img in rvm.Photos)
                 {
@@ -180,8 +181,8 @@ namespace Yourthome.Controllers
                         ImageData = binaryReader.ReadBytes((int)img.Length);
                     }
                     // установка массива байтов
-                    rental.Photos.Add(new Photo {Image=ImageData });
-                }              
+                    rental.Photos.Add(new Photo { Image = ImageData });
+                }
             }
             _context.Rental.Add(rental);
             await _context.SaveChangesAsync();
@@ -194,9 +195,9 @@ namespace Yourthome.Controllers
         // DELETE: Rentals/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> DeleteRental(int id)
+        public async Task<ActionResult<Rental>> DeleteRental(int ID)
         {
-            var rental = await _context.Rental.FindAsync(id);
+            var rental = await _context.Rental.FindAsync(ID);
             if (rental == null)
             {
                 return NotFound();
@@ -207,10 +208,10 @@ namespace Yourthome.Controllers
             return rental;
         }
 
-        private bool RentalExists(int id)
+        private bool RentalExists(int ID)
         {
-            return _context.Rental.Any(e => e.RentalID == id);
-        }        
+            return _context.Rental.Any(e => e.RentalID == ID);
+        }
     }
 }
 
