@@ -108,7 +108,7 @@ namespace Yourthome
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
-
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                     {
@@ -156,6 +156,7 @@ namespace Yourthome
             {
                 endpoints.MapControllers();
             });
+            app.UseDeveloperExceptionPage();
         }
     }
 }

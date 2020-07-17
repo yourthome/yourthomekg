@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\VisualStudioProjects\\Yourthomemain\\yourthomekg\\Yourthome\\Yourthome.csproj": {}
+    "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj": {}
   },
   "projects": {
-    "D:\\VisualStudioProjects\\Yourthomemain\\yourthomekg\\Yourthome\\Yourthome.csproj": {
+    "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\VisualStudioProjects\\Yourthomemain\\yourthomekg\\Yourthome\\Yourthome.csproj",
+        "projectUniqueName": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj",
         "projectName": "Yourthome",
-        "projectPath": "D:\\VisualStudioProjects\\Yourthomemain\\yourthomekg\\Yourthome\\Yourthome.csproj",
+        "projectPath": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\Yourthome.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\VisualStudioProjects\\Yourthomemain\\yourthomekg\\Yourthome\\obj\\",
+        "outputPath": "D:\\VisualStudioProjects\\yourthomekg\\Yourthome\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
