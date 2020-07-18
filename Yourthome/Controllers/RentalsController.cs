@@ -10,6 +10,7 @@ using Yourthome.Models;
 using Yourthome.ViewModel;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using Yourthome.Services;
 
 namespace Yourthome.Controllers
 {
@@ -18,10 +19,11 @@ namespace Yourthome.Controllers
     public class RentalsController : ControllerBase
     {
         private readonly YourthomeContext _context;
-
-        public RentalsController(YourthomeContext context)
+        private IIdsaferService _idsaferservice;
+        public RentalsController(YourthomeContext context,IIdsaferService idsaferservice)
         {
-            _context = context;      
+            _context = context;
+            _idsaferservice = idsaferservice;
         }
         /// <summary>
         /// Find all rentals
@@ -110,9 +112,9 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> PutRental(int Id, Rental rental)
+        public async Task<IActionResult> PutRental(int id, Rental rental)
         {
-            if (Id != rental.RentalID)
+            if (id != rental.RentalID)
             {
                 return BadRequest();
             }
@@ -129,7 +131,7 @@ namespace Yourthome.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RentalExists(Id))
+                if (!RentalExists(id))
                 {
                     return NotFound();
                 }
@@ -148,7 +150,7 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> PostRental(int userid, [FromForm]RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -156,7 +158,7 @@ namespace Yourthome.Controllers
             }
             Rental rental = new Rental
             {
-                UserID = userid, //or connect like user = context.user.get(userid) and add include to user
+                UserID = _idsaferservice.GetUserID(), //or connect like user = context.user.get(userid) and add include to user
                 Region = rvm.Region,
                 Street = rvm.Street,
                 Rooms = rvm.Rooms,

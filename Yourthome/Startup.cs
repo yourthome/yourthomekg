@@ -92,6 +92,7 @@ namespace Yourthome
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IIdsaferService, IdsaferService>();
             services.AddSwaggerGen(c=>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

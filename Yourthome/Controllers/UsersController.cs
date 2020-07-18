@@ -25,18 +25,20 @@ namespace Yourthome.Controllers
         private IUserService _userService;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
-
+        private IIdsaferService _idsaferservice;
         public UsersController(
             IUserService userService,
             IMapper mapper,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings,
+            IIdsaferService idsaferservice)
         {
             _userService = userService;
             _mapper = mapper;
             _appSettings = appSettings.Value;
+            _idsaferservice = idsaferservice;
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpPost("authenticate")]
+        [HttpPost("authenticate")]
         public IActionResult Authenticate([FromForm]AuthenticateModel model)
         {
             var user = _userService.Authenticate(model.Username, model.Password);
@@ -58,7 +60,7 @@ namespace Yourthome.Controllers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-
+            _idsaferservice.TakeUserID(user.Id);
             // return basic user info and authentication token
             return Ok(new
             {
@@ -72,7 +74,7 @@ namespace Yourthome.Controllers
         }
 
         [AllowAnonymous]
-        [Microsoft.AspNetCore.Mvc.HttpPost("register")]
+        [HttpPost("register")]
         public IActionResult Register([FromForm]RegisterModel model)
         {
             // map model to entity
@@ -100,7 +102,7 @@ namespace Yourthome.Controllers
             }
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpGet]
+        [HttpGet]
         [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
         {
@@ -109,7 +111,7 @@ namespace Yourthome.Controllers
             return Ok(model);
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpGet("{id}")]
+        [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public IActionResult GetById(int id)
         {
@@ -118,7 +120,7 @@ namespace Yourthome.Controllers
             return Ok(model);
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpPut("{id}")]
+        [HttpPut("{id}")]
         [Authorize(Roles = "Admin, User")]
         public IActionResult Update(int id,[FromForm]UpdateModel model)
         {
@@ -148,7 +150,7 @@ namespace Yourthome.Controllers
             }
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpDelete("{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = Role.Admin)]
         public IActionResult Delete(int id)
         {

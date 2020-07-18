@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,21 +19,25 @@ namespace Yourthome.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class PersonalPageController : ControllerBase
     {
         private readonly YourthomeContext _context;
         private IUserService _userService;
         private IMapper _mapper;
+        private IIdsaferService _idsaferservice;
         public PersonalPageController(YourthomeContext context, IUserService userService,
-            IMapper mapper)
+            IMapper mapper, IIdsaferService idsaferservice)
         {
             _context = context;
             _userService = userService;
             _mapper = mapper;
+            _idsaferservice = idsaferservice;
         }
-        [HttpGet("User/{id}")]
-        public async Task<ActionResult<User>> User(int id)
+        [HttpGet]
+        public async Task<ActionResult<User>> User()
         {
+            int id = _idsaferservice.GetUserID();
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
@@ -40,12 +45,12 @@ namespace Yourthome.Controllers
             }
             return user;
         }
-        [HttpPut("User/{id}/edit")]
-        public async Task<IActionResult> UpdateUser(int id, [FromForm]UpdateModel model)
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromForm]UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
-            user.Id = id;
+            user.Id = _idsaferservice.GetUserID();
             if (user.Avatar != null)
             {
                 byte[] ImageData = null;
@@ -68,28 +73,30 @@ namespace Yourthome.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-        [HttpGet("User/{id}/rentals")]
-        public async Task<ActionResult<IEnumerable<Rental>>> GetUserRentals(int id)
+        [HttpGet("getuserrentals")]
+        public async Task<ActionResult<IEnumerable<Rental>>> GetUserRentals()
         {
+            int id = _idsaferservice.GetUserID();
             var rentals = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
                 Include(r => r.Bookings).AsQueryable();
             rentals = _context.Rental.Where(p => p.UserID == id);
             return await rentals.ToListAsync();
         }
-        [HttpGet("User/{id}/rentals/id")]
-        public async Task<ActionResult<Rental>> GetUserRental(int id)
+        [HttpGet("getuserrentals/{id}")]
+        public async Task<ActionResult<Rental>> GetUserRentals(int id)
         {
+            int userid = _idsaferservice.GetUserID();
             var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-                Include(r => r.Bookings)
-                .SingleOrDefaultAsync(r => r.RentalID == id);
+               Include(r => r.Bookings).Where(r=>r.UserID==userid)
+               .SingleOrDefaultAsync(r => r.RentalID == id);
             if (rental == null)
             {
                 return NotFound();
             }
             return rental;
         }
-        [HttpPost("User/{id}/rentals/create")]
-        public async Task<ActionResult<Rental>> PostRental(int userid, [FromForm]RentalViewModel rvm)
+        [HttpPost("postrental")]
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -97,7 +104,7 @@ namespace Yourthome.Controllers
             }
             Rental rental = new Rental
             {
-                UserID = userid, //or connect like user = context.user.get(userid) and add include to user
+                UserID = _idsaferservice.GetUserID(), //or connect like user = context.user.get(userid) and add include to user
                 Region = rvm.Region,
                 Street = rvm.Street,
                 Rooms = rvm.Rooms,
@@ -128,9 +135,9 @@ namespace Yourthome.Controllers
             _context.Rental.Add(rental);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRental", new { id = rental.RentalID }, rental);
+            return CreatedAtAction("GetUserRentals", new { id = rental.RentalID }, rental);
         }
-        [HttpPut("User/{id}/rentals/edit")]
+        [HttpPut("updaterental/{id}")]
         public async Task<IActionResult> UpdateRental(int id, Rental rental)
         {
             if (id != rental.RentalID)
@@ -161,10 +168,10 @@ namespace Yourthome.Controllers
             }
             return NoContent();
         }
-        [HttpDelete("User/{id}/rentals/delete")]
-        public async Task<ActionResult<Rental>> DeleteRental(int ID)
+        [HttpDelete("deleterental/{id}")]
+        public async Task<ActionResult<Rental>> DeleteRental(int id)
         {
-            var rental = await _context.Rental.FindAsync(ID);
+            var rental = await _context.Rental.FindAsync(id);
             if (rental == null)
             {
                 return NotFound();

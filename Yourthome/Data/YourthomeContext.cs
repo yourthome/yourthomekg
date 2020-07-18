@@ -20,5 +20,7 @@ namespace Yourthome.Data
         public DbSet<Infrastructure> Infrastructure { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Idsafer> Idsafer { get; set; }
+
     }
 }
