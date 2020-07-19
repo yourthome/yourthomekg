@@ -111,7 +111,6 @@ namespace Yourthome.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> PutRental(int id, Rental rental)
         {
             if (id != rental.RentalID)
@@ -121,6 +120,10 @@ namespace Yourthome.Controllers
             _context.Entry(rental).State = EntityState.Modified;
             _context.Entry(rental.Facilities).State = EntityState.Modified;
             _context.Entry(rental.Infrastructure).State = EntityState.Modified;
+            foreach (var i in rental.Photos)
+            {
+                _context.Entry(i).State = EntityState.Modified;
+            }
             foreach (var i in rental.Bookings)
             {
                 _context.Entry(i).State = EntityState.Modified;
@@ -149,7 +152,6 @@ namespace Yourthome.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
-        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
@@ -196,7 +198,6 @@ namespace Yourthome.Controllers
         /// </summary>
         // DELETE: Rentals/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<Rental>> DeleteRental(int ID)
         {
             var rental = await _context.Rental.FindAsync(ID);
