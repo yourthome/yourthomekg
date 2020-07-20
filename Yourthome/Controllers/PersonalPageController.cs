@@ -34,6 +34,9 @@ namespace Yourthome.Controllers
             _mapper = mapper;
             _idsaferservice = idsaferservice;
         }
+        /// <summary>
+        /// Get logged user's info
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<User>> User()
         {
@@ -45,6 +48,9 @@ namespace Yourthome.Controllers
             }
             return user;
         }
+        /// <summary>
+        /// edit logged user's info
+        /// </summary>
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromForm]UpdateModel model)
         {
@@ -73,6 +79,9 @@ namespace Yourthome.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        /// <summary>
+        /// Get rentals posted by logged user
+        /// </summary>
         [HttpGet("getuserrentals")]
         public async Task<ActionResult<IEnumerable<Rental>>> GetUserRentals()
         {
@@ -82,6 +91,9 @@ namespace Yourthome.Controllers
             rentals = _context.Rental.Where(p => p.UserID == id);
             return await rentals.ToListAsync();
         }
+        /// <summary>
+        /// get specific rental posted by logged user
+        /// </summary>
         [HttpGet("getuserrentals/{id}")]
         public async Task<ActionResult<Rental>> GetUserRentals(int id)
         {
@@ -95,6 +107,9 @@ namespace Yourthome.Controllers
             }
             return rental;
         }
+        /// <summary>
+        /// post rental from user's page
+        /// </summary>
         [HttpPost("postrental")]
         public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
@@ -137,6 +152,9 @@ namespace Yourthome.Controllers
 
             return CreatedAtAction("GetUserRentals", new { id = rental.RentalID }, rental);
         }
+        /// <summary>
+        /// edit rental posted by user
+        /// </summary>
         [HttpPut("updaterental/{id}")]
         public async Task<IActionResult> UpdateRental(int id, Rental rental)
         {
@@ -172,6 +190,9 @@ namespace Yourthome.Controllers
             }
             return NoContent();
         }
+        /// <summary>
+        /// delete user's rental
+        /// </summary>
         [HttpDelete("deleterental/{id}")]
         public async Task<ActionResult<Rental>> DeleteRental(int id)
         {

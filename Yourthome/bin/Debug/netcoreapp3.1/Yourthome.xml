@@ -4,6 +4,81 @@
         <name>Yourthome</name>
     </assembly>
     <members>
+        <member name="M:Yourthome.Controllers.AdminController.GetAll">
+            <summary>
+            Get all users
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.AdminController.GetById(System.Int32)">
+            <summary>
+            get specific user by id
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.AdminController.Update(System.Int32,Yourthome.Models.ViewModel.UpdateModel)">
+            <summary>
+            edit user's info
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.AdminController.Delete(System.Int32)">
+            <summary>
+            delete user
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.AdminController.GetRental">
+            <summary>
+            get rentals
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.AdminController.GetRental(System.Int32)">
+            <summary>
+            get rental by id
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.AdminController.PutRental(System.Int32,Yourthome.Models.Rental)">
+            <summary>
+            edit rental
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.AdminController.DeleteRental(System.Int32)">
+            <summary>
+            delete rental
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.PersonalPageController.User">
+            <summary>
+            Get logged user's info
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.PersonalPageController.UpdateUser(Yourthome.Models.ViewModel.UpdateModel)">
+            <summary>
+            edit logged user's info
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.PersonalPageController.GetUserRentals">
+            <summary>
+            Get rentals posted by logged user
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.PersonalPageController.GetUserRentals(System.Int32)">
+            <summary>
+            get specific rental posted by logged user
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.PersonalPageController.PostRental(Yourthome.ViewModel.RentalViewModel)">
+            <summary>
+            post rental from user's page
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.PersonalPageController.UpdateRental(System.Int32,Yourthome.Models.Rental)">
+            <summary>
+            edit rental posted by user
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.PersonalPageController.DeleteRental(System.Int32)">
+            <summary>
+            delete user's rental
+            </summary>
+        </member>
         <member name="M:Yourthome.Controllers.RentalsController.GetRental(System.Nullable{Yourthome.Models.Region},System.Nullable{System.Int32},System.Nullable{Yourthome.Models.PropertyType},System.Nullable{Yourthome.Models.RentTime},System.Nullable{System.Int32},System.Nullable{System.Int32},Yourthome.Models.FacFilter,Yourthome.Models.InfraFilter,System.Nullable{Yourthome.Models.Sort})">
             <summary>
             Find all rentals
@@ -27,6 +102,36 @@
         <member name="M:Yourthome.Controllers.RentalsController.DeleteRental(System.Int32)">
             <summary>
             Delete specific rental by ID
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.UsersController.Authenticate(Yourthome.Models.ViewModel.AuthenticateModel)">
+            <summary>
+            User Log In
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.UsersController.Register(Yourthome.Models.ViewModel.RegisterModel)">
+            <summary>
+            User Register
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.UsersController.GetAll">
+            <summary>
+            Get All Users
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.UsersController.GetById(System.Int32)">
+            <summary>
+            Get user by ID
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.UsersController.Update(System.Int32,Yourthome.Models.ViewModel.UpdateModel)">
+            <summary>
+            Edit user info
+            </summary>
+        </member>
+        <member name="M:Yourthome.Controllers.UsersController.Delete(System.Int32)">
+            <summary>
+            Delete user by ID
             </summary>
         </member>
     </members>

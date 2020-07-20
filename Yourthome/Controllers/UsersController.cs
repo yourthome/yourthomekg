@@ -37,7 +37,9 @@ namespace Yourthome.Controllers
             _appSettings = appSettings.Value;
             _idsaferservice = idsaferservice;
         }
-
+        /// <summary>
+        /// User Log In
+        /// </summary>
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromForm]AuthenticateModel model)
         {
@@ -72,7 +74,9 @@ namespace Yourthome.Controllers
                 Token = tokenString
             });
         }
-
+        /// <summary>
+        /// User Register
+        /// </summary>
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromForm]RegisterModel model)
@@ -101,7 +105,9 @@ namespace Yourthome.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        /// <summary>
+        /// Get All Users
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
@@ -110,7 +116,9 @@ namespace Yourthome.Controllers
             var model = _mapper.Map<IList<UserModel>>(users);
             return Ok(model);
         }
-
+        /// <summary>
+        /// Get user by ID
+        /// </summary>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public IActionResult GetById(int id)
@@ -119,7 +127,9 @@ namespace Yourthome.Controllers
             var model = _mapper.Map<UserModel>(user);
             return Ok(model);
         }
-
+        /// <summary>
+        /// Edit user info
+        /// </summary>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin, User")]
         public IActionResult Update(int id,[FromForm]UpdateModel model)
@@ -149,7 +159,9 @@ namespace Yourthome.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        /// <summary>
+        /// Delete user by ID
+        /// </summary>
         [HttpDelete("{id}")]
         [Authorize(Roles = Role.Admin)]
         public IActionResult Delete(int id)
