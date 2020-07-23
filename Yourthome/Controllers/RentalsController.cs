@@ -9,6 +9,7 @@ using Yourthome.Data;
 using Yourthome.Models;
 using Yourthome.ViewModel;
 using System.IO;
+using Yourthome.Services;
 using Microsoft.VisualBasic;
 
 namespace Yourthome.Controllers
@@ -18,162 +19,23 @@ namespace Yourthome.Controllers
     public class RentalsController : ControllerBase
     {
         private readonly YourthomeContext _context;
-
-        public RentalsController(YourthomeContext context)
+        private IIdsaferService _idsaferservice;
+        public RentalsController(YourthomeContext context, IIdsaferService idsaferservice)
         {
             _context = context;
-           
-
-            if (!_context.Rental.Any())
-            {
-                #region fillDB
-                //_context.Rental.Add(new Rental
-                //{
-                //    Region = Region.Ik,
-                //    Street = "Cholponatinskaya",
-                //    Cost = 1500,
-                //    Rooms = 3,
-                //    PropertyType = PropertyType.House,
-                //    RentTime = RentTime.FewDays,
-                //    Description = "hata top4ik otve4au",
-                //    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                //    Nearby = "plyaj i bar",
-                //    AccountId = 3,
-                //});
-                //_context.Rental.Add(new Rental
-                //{
-                //    Region = Region.Bishkek,
-                //    Street = "Cholpon",
-                //    Cost = 2500,
-                //    Rooms = 4,
-                //    PropertyType = PropertyType.House,
-                //    RentTime = RentTime.FewDays,
-                //    Description = "hata top4ik otve4au",
-                //    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                //    Nearby = "plyaj i bar",
-                //    AccountId = 3,
-
-                //});
-
-
-
-                ////_context.Rental.Add(new Rental
-                ////{
-                ////    Region = Region.Ik,
-                ////    Street = "Tutusheva",
-                ////    Cost = 3000,
-                ////    Rooms = 5,
-                ////    PropertyType = PropertyType.House,
-                ////    RentTime = RentTime.FewDays,
-                ////    Description = "hata top4ik otve4au",
-                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                ////    Nearby = "plyaj i bar",
-                ////    AccountId = 1,
-                ////});
-                ////_context.Rental.Add(new Rental
-                ////{
-                ////    Region = Region.Bishkek,
-                ////    Street = "Soviet",
-                ////    Cost = 12500,
-                ////    Rooms = 3,
-                ////    PropertyType = PropertyType.Apartment,
-                ////    RentTime = RentTime.Longterm,
-                ////    Description = "hata top4ik otve4au",
-                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                ////    Nearby = "plyaj i bar",
-                ////    AccountId = 3,
-                ////});
-                ////_context.Rental.Add(new Rental
-                ////{
-                ////    Region = Region.Bishkek,
-                ////    Street = "Gapar Aitiev",
-                ////    Cost = 14500,
-                ////    Rooms = 1,
-                ////    PropertyType = PropertyType.Apartment,
-                ////    RentTime = RentTime.FewDays,
-                ////    Description = "hata top4ik otve4au",
-                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                ////    Nearby = "plyaj i bar",
-                ////    AccountId = 1,
-                ////});
-                ////_context.Rental.Add(new Rental
-                ////{
-                ////    Region = Region.Ik,
-                ////    Street = "Cholponaqgq",
-                ////    Cost = 3500,
-                ////    Rooms = 2,
-                ////    PropertyType = PropertyType.House,
-                ////    RentTime = RentTime.Night,
-                ////    Description = "hata top4ik otve4au",
-                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                ////    Nearby = "plyaj i bar",
-                ////    AccountId = 1,
-                ////});
-                ////_context.Rental.Add(new Rental
-                ////{
-                ////    Region = Region.Ik,
-                ////    Street = "Alieva",
-                ////    Cost = 6500,
-                ////    Rooms = 7,
-                ////    PropertyType = PropertyType.House,
-                ////    RentTime = RentTime.FewDays,
-                ////    Description = "hata top4ik otve4au",
-                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                ////    Nearby = "plyaj i bar",
-                ////});
-                ////_context.Rental.Add(new Rental
-                ////{
-                ////    Region = Region.Bishkek,
-                ////    Street = "7aprelya",
-                ////    Cost = 1500,
-                ////    Rooms = 3,
-                ////    PropertyType = PropertyType.Apartment,
-                ////    RentTime = RentTime.FewDays,
-                ////    Description = "hata top4ik otve4au",
-                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                ////    Nearby = "plyaj i bar",
-                ////    AccountId = 1,
-                ////});
-                ////_context.Rental.Add(new Rental
-                ////{
-                ////    Region = Region.Ik,
-                ////    Street = "Balykina",
-                ////    Cost = 1500,
-                ////    Rooms = 1,
-                ////    PropertyType = PropertyType.Apartment,
-                ////    RentTime = RentTime.Night,
-                ////    Description = "hata top4ik otve4au",
-                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                ////    Nearby = "plyaj i bar",
-                ////    AccountId = 1,
-                ////});
-                ////_context.Rental.Add(new Rental
-                ////{
-                ////    Region = Region.Ik,
-                ////    Street = "Cholponatinskaya",
-                ////    Cost = 1500,
-                ////    Rooms = 3,
-                ////    PropertyType = PropertyType.House,
-                ////    RentTime = RentTime.FewDays,
-                ////    Description = "hata top4ik otve4au",
-                ////    Furniture = "TV Tubzik Duw SonyPl4 3krovati",
-                ////    Nearby = "plyaj i bar",
-                ////    AccountId = 1,
-                ////});
-                #endregion
-                _context.SaveChanges();
-            }
+            _idsaferservice = idsaferservice;
         }
-        /// <summary>
-        /// Find all rentals
-        /// </summary>
-        // GET: Rentals
+      
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region,[FromQuery]int? rooms,
-            [FromQuery]PropertyType? property,[FromQuery]RentTime? renttime,
-            [FromQuery]int? CostrangeStart,[FromQuery] int? CostrangeEnd,[FromQuery]Sort? sort)
+        public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery] Region? region, [FromQuery] int? rooms,
+            [FromQuery] PropertyType? property, [FromQuery] RentTime? renttime,
+            [FromQuery] int? CostrangeStart, [FromQuery] int? CostrangeEnd, [FromQuery] FacFilter facfilter,
+            [FromQuery] InfraFilter infrafilter, [FromQuery] Sort? sort)
         {
-            var rents = _context.Rental.AsQueryable();
+            var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
+                Include(r => r.Bookings).
+                AsQueryable();
             if (region.HasValue)
             {
                 rents = rents.Where(r => r.Region == region); //filter by Region
@@ -190,13 +52,28 @@ namespace Yourthome.Controllers
             {
                 rents = rents.Where(r => r.RentTime == renttime); //filter by rent time 
             }
-            if(CostrangeStart.HasValue && CostrangeEnd.HasValue)
+            if (CostrangeStart.HasValue && CostrangeEnd.HasValue)
             {
-                rents = rents.Where(r => r.Cost>=CostrangeStart && r.Cost<=CostrangeEnd); // filter in cost range
+                rents = rents.Where(r => r.Cost >= CostrangeStart && r.Cost <= CostrangeEnd); // filter in cost range
+            }
+            if (facfilter.Internet != null && facfilter.AirConditioning != null)
+            {
+                rents = rents.Where(r => r.Facilities.AirConditioning == facfilter.AirConditioning && r.Facilities.Internet == facfilter.Internet
+                && r.Facilities.Phone == facfilter.Phone && r.Facilities.Washer == facfilter.Washer
+                && r.Facilities.Refrigerator == facfilter.Refrigerator && r.Facilities.Balcony == facfilter.Balcony
+                && r.Facilities.Kitchen == facfilter.Kitchen && r.Facilities.TV == facfilter.TV
+                && r.Facilities.Internet == facfilter.Internet);
+            }
+            if (infrafilter.Cafe != null && infrafilter.Hospital != null)
+            {
+                rents = rents.Where(r => r.Infrastructure.BusStop == infrafilter.BusStop && r.Infrastructure.Parking == infrafilter.Parking
+                && r.Infrastructure.Kindergarten == infrafilter.Kindergarten && r.Infrastructure.Cafe == infrafilter.Cafe
+                && r.Infrastructure.Supermarket == infrafilter.Supermarket && r.Infrastructure.Park == infrafilter.Park
+                && r.Infrastructure.Hospital == infrafilter.Hospital);
             }
             if (sort.HasValue)
             {
-                switch(sort)
+                switch (sort)
                 {
                     case Sort.ASC:
                         rents = rents.OrderBy(r => r.Cost); //sort by cost in ascending order
@@ -265,26 +142,37 @@ namespace Yourthome.Controllers
         // POST: Rentals
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD. 
-        [HttpPost]
-        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
+
+        
+
+        public async Task<ActionResult<Rental>> PostRental([FromForm] RentalViewModel rent)
         {
-            Rental rental = new Rental {
-                Region = rvm.Region,
-                Street = rvm.Street,
-                Rooms = rvm.Rooms,
-                Cost = rvm.Cost,
-                PropertyType = rvm.PropertyType,
-                RentTime = rvm.RentTime,
-                Furniture = rvm.Furniture,
-                Nearby = rvm.Nearby,
-                Description = rvm.Description,
-                Latitude = rvm.Latitude,
-                Longitude = rvm.Longitude
-            };
-            if(rvm.Photos!=null)
+  
+
+            for (int i = 0; i < 10; i++)
             {
-                int count = 0;
-                foreach (var img in rvm.Photos)
+                rent.Bookings.Add(new Booking() { GuestName = $"Guest{i}" });
+            }
+            Rental rental = new Rental
+            {
+                UserID = _idsaferservice.GetUserID(), //or connect like user = context.user.get(userid) and add include to user
+                Region = rent.Region,
+                Street = rent.Street,
+                Rooms = rent.Rooms,
+                Cost = rent.Cost,
+                PropertyType = rent.PropertyType,
+                RentTime = rent.RentTime,
+                Description = rent.Description,
+                Latitude = rent.Latitude,
+                Longitude = rent.Longitude,
+                Facilities = rent.Facilities,
+                Infrastructure = rent.Infrastructure,
+                Bookings = rent.Bookings,
+                Photos = new List<Photo>()
+            };
+            if (rent.Photos != null)
+            {
+                foreach (var img in rent.Photos)
                 {
                     byte[] ImageData = null;
                     using (var binaryReader = new BinaryReader(img.OpenReadStream()))
@@ -292,14 +180,13 @@ namespace Yourthome.Controllers
                         ImageData = binaryReader.ReadBytes((int)img.Length);
                     }
                     // установка массива байтов
-                    rental.Photos[count].Image = ImageData;
-                    count++;
-                }              
+                    rental.Photos.Add(new Photo { Image = ImageData });
+                }
             }
             _context.Rental.Add(rental);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRental", new { id = rental.RentalID }, rental);
+            return CreatedAtAction("GetUserRentals", new { id = rental.RentalID }, rental);
         }
         /// <summary>
         /// Delete specific rental by ID
