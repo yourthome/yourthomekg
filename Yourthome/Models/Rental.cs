@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Yourthome.Models
 {
     public class Rental
     {
         public int RentalID { get; set; }
+        public int UserID { get; set; }
         public Region Region { get; set; }
         public string Street { get; set; }
         public int Rooms { get; set; }
@@ -16,17 +19,12 @@ namespace Yourthome.Models
         public PropertyType PropertyType { get; set; }
         public RentTime RentTime { get; set; }
         public string Description { get; set; }
-        public string Furniture { get; set; }
-        public string Nearby { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-
+        public Facilities Facilities { get; set; }
+        public Infrastructure Infrastructure { get; set; }
         public List<Photo> Photos { get; set; }
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
-
         public List<Booking> Bookings { get; set; }
-       
     }
     public enum PropertyType
     {

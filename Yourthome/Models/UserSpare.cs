@@ -6,30 +6,19 @@ using System.Threading.Tasks;
 
 namespace Yourthome.Models
 {
-    public class Account
+    public class UserSpare
     {
-        public int Id { get; set; }
+        public int UserID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public int Phone { get; set; }
         public string Email { get; set; }
         public Gender Gender { get; set; }
         public DateTime BirthDate { get; set; }
-
-
         public string Password { get; set; }
-    
-        public List<Rental> Rentals { get; set; }
+        //public Avatar Avatar { get; set; }
+        //public List<Rental> Rentals { get; set; }
     }
 
-    public enum Gender
-    {
 
-        [Display(Name = "Мужской")]
-        Male,
-
-        [Display(Name = "Женский")]
-        Female,
-
-    }
 }
