@@ -37,10 +37,10 @@ namespace Yourthome
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(c =>
+            /*services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            });
+            });*/
             /*string con = "Server=(localdb)\\mssqllocaldb;Database=YourthomeDb;Trusted_Connection=True;";
             // устанавливаем контекст данных
             services.AddDbContext<YourthomeContext>(options => options.UseSqlServer(con));*/
@@ -150,7 +150,7 @@ namespace Yourthome
             });
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            //app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
