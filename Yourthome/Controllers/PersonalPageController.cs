@@ -52,7 +52,7 @@ namespace Yourthome.Controllers
         /// edit logged user's info
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromForm]UpdateModel model)
+        public async Task<IActionResult> UpdateUser(UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
@@ -111,7 +111,7 @@ namespace Yourthome.Controllers
         /// post rental from user's page
         /// </summary>
         [HttpPost("postrental")]
-        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {

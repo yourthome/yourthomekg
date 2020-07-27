@@ -132,7 +132,7 @@ namespace Yourthome.Controllers
         /// </summary>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public IActionResult Update(int id,[FromForm]UpdateModel model)
+        public IActionResult Update(int id,UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);

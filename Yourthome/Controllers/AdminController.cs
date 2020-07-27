@@ -56,7 +56,7 @@ namespace Yourthome.Controllers
         /// </summary>
         [HttpPut("users/{id}/update")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Update(int id, [FromForm]UpdateModel model)
+        public async Task<ActionResult> Update(int id, UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
