@@ -37,10 +37,10 @@ namespace Yourthome
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddCors(c =>
+            services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            });*/
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
             /*string con = "Server=(localdb)\\mssqllocaldb;Database=YourthomeDb;Trusted_Connection=True;";
             // устанавливаем контекст данных
             services.AddDbContext<YourthomeContext>(options => options.UseSqlServer(con));*/
@@ -130,8 +130,8 @@ namespace Yourthome
                 });
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                    c.IncludeXmlComments(xmlPath);
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -150,7 +150,7 @@ namespace Yourthome
             });
             app.UseHttpsRedirection();
             app.UseRouting();
-            //app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
