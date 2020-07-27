@@ -41,7 +41,7 @@ namespace Yourthome.Controllers
         /// User Log In
         /// </summary>
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromForm]AuthenticateModel model)
+        public IActionResult Authenticate(AuthenticateModel model)
         {
             var user = _userService.Authenticate(model.Username, model.Password);
 
@@ -79,7 +79,7 @@ namespace Yourthome.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromForm]RegisterModel model)
+        public IActionResult Register(RegisterModel model)
         {
             // map model to entity
             var user = _mapper.Map<User>(model);
