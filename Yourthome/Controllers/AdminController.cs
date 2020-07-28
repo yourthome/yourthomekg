@@ -60,7 +60,17 @@ namespace Yourthome.Controllers
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
-            user.Id = id;          
+            user.Id = id;
+            if (user.Avatar != null)
+            {
+                byte[] ImageData = null;
+                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
+                {
+                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
+                }
+                // установка массива байтов
+                user.AvatarStored = ImageData;
+            }
             try
             {
                 // update user 
