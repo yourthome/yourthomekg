@@ -90,14 +90,17 @@ namespace Yourthome.Controllers
             var user = _mapper.Map<User>(model);
             if (user.Avatar != null)
             {
-                byte[] ImageData = null;
-                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
+                // путь к папке Files
+                string path = "/Files/" + user.Avatar.FileName;
+                // сохраняем файл в папку Files в каталоге wwwroot
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
-                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
+                    user.Avatar.CopyToAsync(fileStream);
                 }
-                // установка массива байтов
-                user.AvatarStored = ImageData;
-            }
+                ImageModel file = new ImageModel { Name = user.Avatar.FileName, Path = path };
+                user.AvatarName = file.Name;
+                user.AvatarPath = file.Path;
+            }          
             try
             {
                 // create user
@@ -142,7 +145,7 @@ namespace Yourthome.Controllers
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
             user.Id = id;
-            if (user.Avatar != null)
+            /*if (user.Avatar != null)
             {
                 byte[] ImageData = null;
                 using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
@@ -151,8 +154,7 @@ namespace Yourthome.Controllers
                 }
                 // установка массива байтов
                 user.AvatarStored = ImageData;
-            }
-            user.Id = id;           
+            }*/
             try
             {
                 // update user 

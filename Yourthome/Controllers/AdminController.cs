@@ -69,7 +69,7 @@ namespace Yourthome.Controllers
                     ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
                 }
                 // установка массива байтов
-                user.AvatarStored = ImageData;
+                //user.AvatarStored = ImageData;
             }
             try
             {

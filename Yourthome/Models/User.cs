@@ -20,8 +20,10 @@ namespace Yourthome.Models
         public Gender Gender { get; set; }
         public DateTime BirthDate { get; set; }
         [NotMapped]
+        [JsonIgnore]
         public IFormFile Avatar { get; set; }
-        public byte[] AvatarStored { get; set; }
+        public string AvatarName { get; set; }
+        public string AvatarPath { get; set; }
         public string Role { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Yourthome.Data;
@@ -9,9 +10,10 @@ using Yourthome.Data;
 namespace Yourthome.Migrations
 {
     [DbContext(typeof(YourthomeContext))]
-    partial class YourthomeContextModelSnapshot : ModelSnapshot
+    [Migration("20200728141101_useravatarad")]
+    partial class useravatarad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,11 +215,8 @@ namespace Yourthome.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("AvatarName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AvatarPath")
-                        .HasColumnType("text");
+                    b.Property<int?>("AvatarStoredImageModelID")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp without time zone");
@@ -250,6 +249,8 @@ namespace Yourthome.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AvatarStoredImageModelID");
 
                     b.ToTable("Users");
                 });
@@ -286,6 +287,13 @@ namespace Yourthome.Migrations
                         .HasForeignKey("Yourthome.Models.Infrastructure", "RentalID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Yourthome.Models.User", b =>
+                {
+                    b.HasOne("Yourthome.Models.ImageModel", "AvatarStored")
+                        .WithMany()
+                        .HasForeignKey("AvatarStoredImageModelID");
                 });
 #pragma warning restore 612, 618
         }
