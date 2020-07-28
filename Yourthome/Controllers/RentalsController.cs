@@ -208,7 +208,6 @@ namespace Yourthome.Controllers
             {
                 return NotFound();
             }
-
             _context.Rental.Remove(rental);
             await _context.SaveChangesAsync();
             return rental;
