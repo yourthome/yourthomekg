@@ -15,6 +15,7 @@ using Yourthome.Models;
 using Yourthome.Models.ViewModel;
 using Yourthome.Services;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Yourthome.Controllers
 {
@@ -26,16 +27,20 @@ namespace Yourthome.Controllers
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
         private IIdsaferService _idsaferservice;
+        IWebHostEnvironment _appEnvironment;
+
         public UsersController(
             IUserService userService,
             IMapper mapper,
             IOptions<AppSettings> appSettings,
-            IIdsaferService idsaferservice)
+            IIdsaferService idsaferservice,
+            IWebHostEnvironment appEnvironment)
         {
             _userService = userService;
             _mapper = mapper;
             _appSettings = appSettings.Value;
             _idsaferservice = idsaferservice;
+            _appEnvironment = appEnvironment;
         }
         /// <summary>
         /// User Log In
@@ -79,7 +84,7 @@ namespace Yourthome.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register(RegisterModel model)
+        public IActionResult Register([FromForm]RegisterModel model)
         {
             // map model to entity
             var user = _mapper.Map<User>(model);
@@ -136,17 +141,7 @@ namespace Yourthome.Controllers
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
-            user.Id = id;
-            if (user.Avatar != null)
-            {
-                byte[] ImageData = null;
-                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
-                {
-                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
-                }
-                // установка массива байтов
-                user.AvatarStored = ImageData;
-            }
+            user.Id = id;           
             try
             {
                 // update user 

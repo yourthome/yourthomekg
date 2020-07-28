@@ -25,5 +25,6 @@ namespace Yourthome.Models.ViewModel
         public Gender Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public IFormFile Avatar { get; set; }
+
     }
 }

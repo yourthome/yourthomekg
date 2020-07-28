@@ -11,6 +11,7 @@ using Yourthome.ViewModel;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Yourthome.Services;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Yourthome.Controllers
 {
@@ -19,11 +20,13 @@ namespace Yourthome.Controllers
     public class RentalsController : ControllerBase
     {
         private readonly YourthomeContext _context;
+        IWebHostEnvironment _appEnvironment;
         private IIdsaferService _idsaferservice;
-        public RentalsController(YourthomeContext context,IIdsaferService idsaferservice)
+        public RentalsController(YourthomeContext context,IIdsaferService idsaferservice, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _idsaferservice = idsaferservice;
+            _appEnvironment = appEnvironment;
         }
         /// <summary>
         /// Find all rentals
@@ -35,8 +38,8 @@ namespace Yourthome.Controllers
             [FromQuery]int? CostrangeStart, [FromQuery] int? CostrangeEnd, [FromQuery]FacFilter facfilter,
             [FromQuery]InfraFilter infrafilter, [FromQuery]Sort? sort)
         {
-            var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-                Include(r => r.Bookings).
+            var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).
+                Include(r => r.Bookings).Include(r=>r.Photos).
                 AsQueryable();
             if (region.HasValue)
             {
@@ -95,8 +98,8 @@ namespace Yourthome.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Rental>> GetRental(int id)
         {
-            var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-                Include(r=>r.Bookings)
+            var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).
+                Include(r=>r.Bookings).Include(r => r.Photos)
                 .SingleOrDefaultAsync(r => r.RentalID == id);
             if (rental == null)
             {
@@ -154,7 +157,7 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -175,20 +178,19 @@ namespace Yourthome.Controllers
                 Facilities = rvm.Facilities,
                 Infrastructure = rvm.Infrastructure,
                 Bookings = rvm.Bookings,
-                Photos = new List<Photo>()
+                Photos = new List<ImageModel> { }
             };
-            if (rvm.Photos != null)
+            foreach (var uploadedFile in rvm.Photos)
             {
-                foreach (var img in rvm.Photos)
+                // путь к папке Files
+                string path = "/Files/" + uploadedFile.FileName;
+                // сохраняем файл в папку Files в каталоге wwwroot
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
-                    byte[] ImageData = null;
-                    using (var binaryReader = new BinaryReader(img.OpenReadStream()))
-                    {
-                        ImageData = binaryReader.ReadBytes((int)img.Length);
-                    }
-                    // установка массива байтов
-                    rental.Photos.Add(new Photo { Image = ImageData });
+                    await uploadedFile.CopyToAsync(fileStream);
                 }
+                ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                rental.Photos.Add(file);
             }
             _context.Rental.Add(rental);
             await _context.SaveChangesAsync();

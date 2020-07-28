@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,13 +27,16 @@ namespace Yourthome.Controllers
         private IUserService _userService;
         private IMapper _mapper;
         private IIdsaferService _idsaferservice;
+        IWebHostEnvironment _appEnvironment;
+
         public PersonalPageController(YourthomeContext context, IUserService userService,
-            IMapper mapper, IIdsaferService idsaferservice)
+            IMapper mapper, IIdsaferService idsaferservice, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _userService = userService;
             _mapper = mapper;
             _idsaferservice = idsaferservice;
+            _appEnvironment = appEnvironment;
         }
         /// <summary>
         /// Get logged user's info
@@ -56,17 +60,7 @@ namespace Yourthome.Controllers
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
-            user.Id = _idsaferservice.GetUserID();
-            if (user.Avatar != null)
-            {
-                byte[] ImageData = null;
-                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
-                {
-                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
-                }
-                // установка массива байтов
-                user.AvatarStored = ImageData;
-            }
+            user.Id = _idsaferservice.GetUserID();          
             try
             {
                 // update user 
@@ -86,8 +80,8 @@ namespace Yourthome.Controllers
         public async Task<ActionResult<IEnumerable<Rental>>> GetUserRentals()
         {
             int id = _idsaferservice.GetUserID();
-            var rentals = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-                Include(r => r.Bookings).AsQueryable();
+            var rentals = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).
+                Include(r => r.Bookings).Include(r=>r.Photos).AsQueryable();
             rentals = _context.Rental.Where(p => p.UserID == id);
             return await rentals.ToListAsync();
         }
@@ -98,8 +92,8 @@ namespace Yourthome.Controllers
         public async Task<ActionResult<Rental>> GetUserRentals(int id)
         {
             int userid = _idsaferservice.GetUserID();
-            var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-               Include(r => r.Bookings).Where(r=>r.UserID==userid)
+            var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).
+               Include(r => r.Bookings).Include(r => r.Photos).Where(r=>r.UserID==userid)
                .SingleOrDefaultAsync(r => r.RentalID == id);
             if (rental == null)
             {
@@ -111,7 +105,7 @@ namespace Yourthome.Controllers
         /// post rental from user's page
         /// </summary>
         [HttpPost("postrental")]
-        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -132,20 +126,19 @@ namespace Yourthome.Controllers
                 Facilities = rvm.Facilities,
                 Infrastructure = rvm.Infrastructure,
                 Bookings = rvm.Bookings,
-                Photos = new List<Photo>()
+                Photos = new List<ImageModel> { }
             };
-            if (rvm.Photos != null)
+            foreach (var uploadedFile in rvm.Photos)
             {
-                foreach (var img in rvm.Photos)
+                // путь к папке Files
+                string path = "/Files/" + uploadedFile.FileName;
+                // сохраняем файл в папку Files в каталоге wwwroot
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
-                    byte[] ImageData = null;
-                    using (var binaryReader = new BinaryReader(img.OpenReadStream()))
-                    {
-                        ImageData = binaryReader.ReadBytes((int)img.Length);
-                    }
-                    // установка массива байтов
-                    rental.Photos.Add(new Photo { Image = ImageData });
+                    await uploadedFile.CopyToAsync(fileStream);
                 }
+                ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                rental.Photos.Add(file);
             }
             _context.Rental.Add(rental);
             await _context.SaveChangesAsync();
@@ -164,7 +157,7 @@ namespace Yourthome.Controllers
             }
             _context.Entry(rental).State = EntityState.Modified;
             _context.Entry(rental.Facilities).State = EntityState.Modified;
-            _context.Entry(rental.Infrastructure).State = EntityState.Modified;
+            _context.Entry(rental.Infrastructure).State = EntityState.Modified;           
             foreach (var i in rental.Photos)
             {
                 _context.Entry(i).State = EntityState.Modified;

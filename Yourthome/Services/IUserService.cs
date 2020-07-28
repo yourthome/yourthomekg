@@ -86,7 +86,7 @@ namespace Yourthome.Services
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.Role = Role.User;
-
+            
             _context.Users.Add(user);
             _context.SaveChanges();
 
@@ -132,7 +132,7 @@ namespace Yourthome.Services
         }
 
         public void Delete(int id)
-        {
+        {         
             var user = _context.Users.Find(id);
             if (user != null)
             {

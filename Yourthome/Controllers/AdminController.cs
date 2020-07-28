@@ -60,17 +60,7 @@ namespace Yourthome.Controllers
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
-            user.Id = id;
-            if (user.Avatar != null)
-            {
-                byte[] ImageData = null;
-                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
-                {
-                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
-                }
-                // установка массива байтов
-                user.AvatarStored = ImageData;
-            }
+            user.Id = id;          
             try
             {
                 // update user 
@@ -109,8 +99,8 @@ namespace Yourthome.Controllers
         [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult<Rental>> GetRental(int id)
         {
-            var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).Include(r => r.Photos).
-                Include(r => r.Bookings)
+            var rental = await _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).
+                Include(r => r.Bookings).Include(r => r.Photos)
                 .SingleOrDefaultAsync(r => r.RentalID == id);
             if (rental == null)
             {

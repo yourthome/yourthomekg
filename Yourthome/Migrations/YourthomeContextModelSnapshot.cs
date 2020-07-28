@@ -102,6 +102,29 @@ namespace Yourthome.Migrations
                     b.ToTable("Idsafer");
                 });
 
+            modelBuilder.Entity("Yourthome.Models.ImageModel", b =>
+                {
+                    b.Property<int>("ImageModelID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("RentalID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ImageModelID");
+
+                    b.HasIndex("RentalID");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("Yourthome.Models.Infrastructure", b =>
                 {
                     b.Property<int>("InfrastructureID")
@@ -139,26 +162,6 @@ namespace Yourthome.Migrations
                         .IsUnique();
 
                     b.ToTable("Infrastructure");
-                });
-
-            modelBuilder.Entity("Yourthome.Models.Photo", b =>
-                {
-                    b.Property<int>("PhotoID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("bytea");
-
-                    b.Property<int>("RentalID")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PhotoID");
-
-                    b.HasIndex("RentalID");
-
-                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("Yourthome.Models.Rental", b =>
@@ -266,20 +269,18 @@ namespace Yourthome.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Yourthome.Models.ImageModel", b =>
+                {
+                    b.HasOne("Yourthome.Models.Rental", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("RentalID");
+                });
+
             modelBuilder.Entity("Yourthome.Models.Infrastructure", b =>
                 {
                     b.HasOne("Yourthome.Models.Rental", "Rental")
                         .WithOne("Infrastructure")
                         .HasForeignKey("Yourthome.Models.Infrastructure", "RentalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Yourthome.Models.Photo", b =>
-                {
-                    b.HasOne("Yourthome.Models.Rental", "Rental")
-                        .WithMany("Photos")
-                        .HasForeignKey("RentalID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

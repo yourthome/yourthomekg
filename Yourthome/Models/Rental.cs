@@ -23,7 +23,7 @@ namespace Yourthome.Models
         public decimal Longitude { get; set; }
         public Facilities Facilities { get; set; }
         public Infrastructure Infrastructure { get; set; }
-        public List<Photo> Photos { get; set; }       
+        public List<ImageModel> Photos { get; set; }
         public List<Booking> Bookings { get; set; }
     }
     public enum PropertyType
