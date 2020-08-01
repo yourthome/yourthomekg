@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Yourthome.Data;
@@ -22,12 +23,14 @@ namespace Yourthome.Controllers
         private readonly YourthomeContext _context;
         private IUserService _userService;
         private IMapper _mapper;
+        IWebHostEnvironment _appEnvironment;
         public AdminController(YourthomeContext context, IUserService userService,
-            IMapper mapper)
+            IMapper mapper, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _userService = userService;
             _mapper = mapper;
+            _appEnvironment = appEnvironment;
         }
         /// <summary>
         /// Get all users
@@ -63,13 +66,16 @@ namespace Yourthome.Controllers
             user.Id = id;
             if (user.Avatar != null)
             {
-                byte[] ImageData = null;
-                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
+                // путь к папке Files
+                string path = "/Files/" + user.Avatar.FileName;
+                // сохраняем файл в папку Files в каталоге wwwroot
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
-                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
+                    await user.Avatar.CopyToAsync(fileStream);
                 }
-                // установка массива байтов
-                //user.AvatarStored = ImageData;
+                ImageModel file = new ImageModel { Name = user.Avatar.FileName, Path = path };
+                user.AvatarName = file.Name;
+                user.AvatarPath = file.Path;
             }
             try
             {
