@@ -89,7 +89,7 @@
             Find specific rental by ID
             </summary>
         </member>
-        <member name="M:Yourthome.Controllers.RentalsController.PutRental(System.Int32,Yourthome.Models.Rental)">
+        <member name="M:Yourthome.Controllers.RentalsController.PutRental(System.Int32,Yourthome.ViewModel.RentalViewModel)">
             <summary>
             Edits specific rental by ID
             </summary>

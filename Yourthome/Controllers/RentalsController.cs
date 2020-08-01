@@ -115,11 +115,37 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> PutRental(int id, Rental rental)
+        public async Task<IActionResult> PutRental(int id, RentalViewModel rvm)
         {
+            var rental = await _context.Rental.FindAsync(id);
             if (id != rental.RentalID)
             {
                 return BadRequest();
+            }
+            rental.Region = rvm.Region;
+            rental.Street = rvm.Street;
+            rental.Rooms = rvm.Rooms;
+            rental.Cost = rvm.Cost;
+            rental.PropertyType = rvm.PropertyType;
+            rental.RentTime = rvm.RentTime;
+            rental.Description = rvm.Description;
+            rental.Latitude = rvm.Latitude;
+            rental.Longitude = rvm.Longitude;
+            rental.Facilities = rvm.Facilities;
+            rental.Infrastructure = rvm.Infrastructure;
+            rental.Bookings = rvm.Bookings;
+            rental.Photos = new List<ImageModel>();
+            foreach (var uploadedFile in rvm.Photos)
+            {
+                // путь к папке Files
+                string path = "/Files/" + uploadedFile.FileName;
+                // сохраняем файл в папку Files в каталоге wwwroot
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(fileStream);
+                }
+                ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                rental.Photos.Add(file);
             }
             _context.Entry(rental).State = EntityState.Modified;
             _context.Entry(rental.Facilities).State = EntityState.Modified;
@@ -180,18 +206,22 @@ namespace Yourthome.Controllers
                 Bookings = rvm.Bookings,
                 Photos = new List<ImageModel> { }
             };
-            foreach (var uploadedFile in rvm.Photos)
+            if (rvm.Photos != null)
             {
-                // путь к папке Files
-                string path = "/Files/" + uploadedFile.FileName;
-                // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                foreach (var uploadedFile in rvm.Photos)
                 {
-                    await uploadedFile.CopyToAsync(fileStream);
+                    // путь к папке Files
+                    string path = "/Files/" + uploadedFile.FileName;
+                    // сохраняем файл в папку Files в каталоге wwwroot
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+                    ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                    rental.Photos.Add(file);
                 }
-                ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
-                rental.Photos.Add(file);
             }
+            
             _context.Rental.Add(rental);
             await _context.SaveChangesAsync();
 
@@ -203,9 +233,9 @@ namespace Yourthome.Controllers
         // DELETE: Rentals/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> DeleteRental(int ID)
+        public async Task<ActionResult<Rental>> DeleteRental(int id)
         {
-            var rental = await _context.Rental.FindAsync(ID);
+            var rental = await _context.Rental.FindAsync(id);
             if (rental == null)
             {
                 return NotFound();
@@ -215,9 +245,9 @@ namespace Yourthome.Controllers
             return rental;
         }
 
-        private bool RentalExists(int ID)
+        private bool RentalExists(int id)
         {
-            return _context.Rental.Any(e => e.RentalID == ID);
+            return _context.Rental.Any(e => e.RentalID == id);
         }
     }
 }

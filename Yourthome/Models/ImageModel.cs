@@ -8,6 +8,8 @@ namespace Yourthome.Models
     public class ImageModel
     {
         public int ImageModelID { get; set; }
+        public int RentalID { get; set; }
+        public Rental Rental { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
     }

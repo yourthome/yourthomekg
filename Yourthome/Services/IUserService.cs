@@ -29,7 +29,7 @@ namespace Yourthome.Services
         public void CreateAdmin()
         {
             var user = _context.Users.SingleOrDefault(u => u.Id == 1);
-            if (user == null)
+            if (user.Role!=Role.Admin)
             {
                 User admin = new User { FirstName = "Admin", LastName = "Adminov", Username = "adminbratan" };
                 byte[] passwordHash, passwordSalt;
@@ -117,6 +117,10 @@ namespace Yourthome.Services
             if (!string.IsNullOrWhiteSpace(userParam.LastName))
                 user.LastName = userParam.LastName;
 
+            if (!string.IsNullOrWhiteSpace(userParam.AvatarName))
+                user.AvatarName = userParam.AvatarName;
+            if (!string.IsNullOrWhiteSpace(userParam.AvatarPath))
+                user.AvatarPath = userParam.AvatarPath;
             // update password if provided
             if (!string.IsNullOrWhiteSpace(password))
             {
@@ -134,9 +138,9 @@ namespace Yourthome.Services
         public void Delete(int id)
         {         
             var user = _context.Users.Find(id);
-            if (user != null)
+            if (user != null && user.Role!=Role.Admin)
             {
-                var rentals = _context.Rental.Where(r=>r.UserID==id);
+                var rentals = _context.Rental.Where(r => r.UserID == id);
                 _context.Rental.RemoveRange(rentals);
                 _context.Users.Remove(user);
                 _context.SaveChanges();

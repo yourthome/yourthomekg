@@ -19,8 +19,8 @@ namespace Yourthome.Models
         public string Email { get; set; }
         public Gender Gender { get; set; }
         public DateTime BirthDate { get; set; }
-        [NotMapped]
         [JsonIgnore]
+        [NotMapped]
         public IFormFile Avatar { get; set; }
         public string AvatarName { get; set; }
         public string AvatarPath { get; set; }

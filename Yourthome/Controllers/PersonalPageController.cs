@@ -56,20 +56,23 @@ namespace Yourthome.Controllers
         /// edit logged user's info
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UpdateModel model)
+        public async Task<IActionResult> UpdateUser([FromForm]UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
             user.Id = _idsaferservice.GetUserID();
             if (user.Avatar != null)
             {
-                byte[] ImageData = null;
-                using (var binaryReader = new BinaryReader(user.Avatar.OpenReadStream()))
+                // путь к папке Files
+                string path = "/Files/" + user.Avatar.FileName;
+                // сохраняем файл в папку Files в каталоге wwwroot
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
-                    ImageData = binaryReader.ReadBytes((int)user.Avatar.Length);
+                    await user.Avatar.CopyToAsync(fileStream);
                 }
-                // установка массива байтов
-               // user.AvatarStored = ImageData;
+                ImageModel file = new ImageModel { Name = user.Avatar.FileName, Path = path };
+                user.AvatarName = file.Name;
+                user.AvatarPath = file.Path;
             }
             try
             {
@@ -209,9 +212,9 @@ namespace Yourthome.Controllers
             await _context.SaveChangesAsync();
             return rental;
         }
-        private bool RentalExists(int ID)
+        private bool RentalExists(int id)
         {
-            return _context.Rental.Any(e => e.RentalID == ID);
+            return _context.Rental.Any(e => e.RentalID == id);
         }
     }
 }

@@ -162,9 +162,9 @@ namespace Yourthome.Controllers
         /// </summary>
         [HttpDelete("rentals/{id}/delete")]
         [Authorize(Roles = Role.Admin)]
-        public async Task<ActionResult<Rental>> DeleteRental(int ID)
+        public async Task<ActionResult<Rental>> DeleteRental(int id)
         {
-            var rental = await _context.Rental.FindAsync(ID);
+            var rental = await _context.Rental.FindAsync(id);
             if (rental == null)
             {
                 return NotFound();
@@ -174,9 +174,9 @@ namespace Yourthome.Controllers
             await _context.SaveChangesAsync();
             return rental;
         }
-        private bool RentalExists(int ID)
+        private bool RentalExists(int id)
         {
-            return _context.Rental.Any(e => e.RentalID == ID);
+            return _context.Rental.Any(e => e.RentalID == id);
         }
     }
 }
