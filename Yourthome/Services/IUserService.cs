@@ -29,7 +29,7 @@ namespace Yourthome.Services
         public void CreateAdmin()
         {
             var user = _context.Users.SingleOrDefault(u => u.Id == 1);
-            if (user.Role!=Role.Admin)
+            if (user==null)
             {
                 User admin = new User { FirstName = "Admin", LastName = "Adminov", Username = "adminbratan" };
                 byte[] passwordHash, passwordSalt;
