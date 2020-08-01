@@ -34,6 +34,7 @@ namespace Yourthome.Controllers
         // GET: Rentals
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region, [FromQuery]int? rooms,
+            [FromQuery]int? floor,[FromQuery]string title,
             [FromQuery]PropertyType? property, [FromQuery]RentTime? renttime,
             [FromQuery]int? CostrangeStart, [FromQuery] int? CostrangeEnd, [FromQuery]FacFilter facfilter,
             [FromQuery]InfraFilter infrafilter, [FromQuery]Sort? sort)
@@ -48,6 +49,14 @@ namespace Yourthome.Controllers
             if (rooms.HasValue)
             {
                 rents = rents.Where(r => r.Rooms == rooms); //filter by amount of room
+            }
+            if (floor.HasValue)
+            {
+                rents = rents.Where(r => r.Floor == floor); //filter by floor
+            }
+            if(!string.IsNullOrWhiteSpace(title))
+            {
+                rents = rents.Where(r => r.Title.Contains(title));
             }
             if (property.HasValue)
             {
@@ -126,6 +135,8 @@ namespace Yourthome.Controllers
             rental.Street = rvm.Street;
             rental.Rooms = rvm.Rooms;
             rental.Cost = rvm.Cost;
+            rental.Floor = rvm.Floor;
+            rental.Title = rvm.Title;
             rental.PropertyType = rvm.PropertyType;
             rental.RentTime = rvm.RentTime;
             rental.Description = rvm.Description;
@@ -191,11 +202,13 @@ namespace Yourthome.Controllers
             }
             Rental rental = new Rental
             {
-                UserID = _idsaferservice.GetUserID(), //or connect like user = context.user.get(userid) and add include to user
+                UserID = _idsaferservice.GetUserID(), 
+                Title = rvm.Title,
                 Region = rvm.Region,
                 Street = rvm.Street,
                 Rooms = rvm.Rooms,
                 Cost = rvm.Cost,
+                Floor = rvm.Floor,
                 PropertyType = rvm.PropertyType,
                 RentTime = rvm.RentTime,
                 Description = rvm.Description,

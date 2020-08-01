@@ -79,7 +79,7 @@
             delete user's rental
             </summary>
         </member>
-        <member name="M:Yourthome.Controllers.RentalsController.GetRental(System.Nullable{Yourthome.Models.Region},System.Nullable{System.Int32},System.Nullable{Yourthome.Models.PropertyType},System.Nullable{Yourthome.Models.RentTime},System.Nullable{System.Int32},System.Nullable{System.Int32},Yourthome.Models.FacFilter,Yourthome.Models.InfraFilter,System.Nullable{Yourthome.Models.Sort})">
+        <member name="M:Yourthome.Controllers.RentalsController.GetRental(System.Nullable{Yourthome.Models.Region},System.Nullable{System.Int32},System.Nullable{System.Int32},System.String,System.Nullable{Yourthome.Models.PropertyType},System.Nullable{Yourthome.Models.RentTime},System.Nullable{System.Int32},System.Nullable{System.Int32},Yourthome.Models.FacFilter,Yourthome.Models.InfraFilter,System.Nullable{Yourthome.Models.Sort})">
             <summary>
             Find all rentals
             </summary>

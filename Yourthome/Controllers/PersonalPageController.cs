@@ -128,6 +128,8 @@ namespace Yourthome.Controllers
             {
                 UserID = _idsaferservice.GetUserID(), //or connect like user = context.user.get(userid) and add include to user
                 Region = rvm.Region,
+                Floor = rvm.Floor,
+                Title = rvm.Title,
                 Street = rvm.Street,
                 Rooms = rvm.Rooms,
                 Cost = rvm.Cost,
@@ -141,18 +143,21 @@ namespace Yourthome.Controllers
                 Bookings = rvm.Bookings,
                 Photos = new List<ImageModel> { }
             };
-            foreach (var uploadedFile in rvm.Photos)
+            if (rvm.Photos != null)
             {
-                // путь к папке Files
-                string path = "/Files/" + uploadedFile.FileName;
-                // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                foreach (var uploadedFile in rvm.Photos)
                 {
-                    await uploadedFile.CopyToAsync(fileStream);
+                    // путь к папке Files
+                    string path = "/Files/" + uploadedFile.FileName;
+                    // сохраняем файл в папку Files в каталоге wwwroot
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+                    ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                    rental.Photos.Add(file);
                 }
-                ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
-                rental.Photos.Add(file);
-            }
+            }          
             _context.Rental.Add(rental);
             await _context.SaveChangesAsync();
 
