@@ -52,7 +52,7 @@ namespace Yourthome.Controllers
             var user = _userService.Authenticate(model.Username, model.Password);
 
             if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                return BadRequest(new { message = "Username or password is incorrect. M.b. email isn't verified" });
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -105,7 +105,7 @@ namespace Yourthome.Controllers
             try
             {
                 // create user
-                _userService.Create(user, model.Password);
+                _userService.Create(user,model.Password,Request.Headers["origin"]);
                 return Ok();
             }
             catch (AppException ex)
@@ -113,6 +113,16 @@ namespace Yourthome.Controllers
                 // return error message if there was an exception
                 return BadRequest(new { message = ex.Message });
             }
+        }
+        /// <summary>
+        /// Email Verification
+        /// </summary>
+        [AllowAnonymous]
+        [HttpPost("verify-email")]
+        public IActionResult VerifyEmail(VerifyEmailRequest model)
+        {
+            _userService.VerifyEmail(model.Token);
+            return Ok(new { message = "Verification successful, you can now login" });
         }
         /// <summary>
         /// Get All Users

@@ -24,7 +24,7 @@
             delete user
             </summary>
         </member>
-        <member name="M:Yourthome.Controllers.AdminController.GetRental">
+        <member name="M:Yourthome.Controllers.AdminController.GetRental(System.Nullable{Yourthome.Models.Region})">
             <summary>
             get rentals
             </summary>

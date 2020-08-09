@@ -104,9 +104,16 @@ namespace Yourthome.Controllers
         /// </summary>
         [HttpGet("rentals")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<Rental>>> GetRental()
+        public async Task<ActionResult<IEnumerable<Rental>>> GetRental([FromQuery]Region? region)
         {
-            return await _context.Rental.ToListAsync();
+            var rents = _context.Rental.Include(r => r.Facilities).Include(r => r.Infrastructure).
+                Include(r => r.Bookings).Include(r => r.Photos).
+                AsQueryable();
+            if (region.HasValue)
+            {
+                rents = rents.Where(r => r.Region == region); //filter by Region
+            }
+            return await rents.ToListAsync();
         }
         /// <summary>
         /// get rental by id

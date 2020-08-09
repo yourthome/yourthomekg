@@ -13,16 +13,17 @@ namespace Yourthome.Models
         public int RentalID { get; set; }
         public int UserID { get; set; }
         public string Title { get; set; }
-        public Region Region { get; set; }
+        [Required]
+        public Region? Region { get; set; }
         public string Street { get; set; }
-        public int Rooms { get; set; }
-        public int Cost { get; set; }
-        public int Floor { get; set; }
-        public PropertyType PropertyType { get; set; }
-        public RentTime RentTime { get; set; }
+        public int? Rooms { get; set; }
+        public int? Cost { get; set; }
+        public int? Floor { get; set; }
+        public PropertyType? PropertyType { get; set; }
+        public RentTime? RentTime { get; set; }
         public string Description { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
         public Facilities Facilities { get; set; }
         public Infrastructure Infrastructure { get; set; }
         public List<ImageModel> Photos { get; set; }

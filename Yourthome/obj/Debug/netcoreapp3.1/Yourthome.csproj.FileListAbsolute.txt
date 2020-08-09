@@ -255,8 +255,6 @@ D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Microsoft.
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cs
-D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cache
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Yourthome.xml
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.xml
 C:\Users\User\Source\Repos\yourthome\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\appsettings.Development.json
@@ -572,3 +570,9 @@ D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Newtonsoft
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Swashbuckle.Core.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\WebActivatorEx.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\MailKit.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\MimeKit.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cs
+D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cache

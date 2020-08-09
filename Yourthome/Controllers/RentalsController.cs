@@ -131,17 +131,28 @@ namespace Yourthome.Controllers
             {
                 return BadRequest();
             }
-            rental.Region = rvm.Region;
-            rental.Street = rvm.Street;
-            rental.Rooms = rvm.Rooms;
-            rental.Cost = rvm.Cost;
-            rental.Floor = rvm.Floor;
-            rental.Title = rvm.Title;
-            rental.PropertyType = rvm.PropertyType;
-            rental.RentTime = rvm.RentTime;
-            rental.Description = rvm.Description;
-            rental.Latitude = rvm.Latitude;
-            rental.Longitude = rvm.Longitude;
+            if(rvm.Region.HasValue)          
+                rental.Region = rvm.Region;  
+            if(!string.IsNullOrWhiteSpace(rvm.Street))
+                rental.Street = rvm.Street;
+            if (rvm.Rooms.HasValue)
+                rental.Rooms = rvm.Rooms;
+            if (rvm.Cost.HasValue)
+                rental.Cost = rvm.Cost;
+            if (rvm.Floor.HasValue)
+                rental.Floor = rvm.Floor;
+            if (!string.IsNullOrWhiteSpace(rvm.Title))
+                rental.Title = rvm.Title;
+            if (rvm.PropertyType.HasValue)
+                rental.PropertyType = rvm.PropertyType;
+            if (rvm.RentTime.HasValue)
+                rental.RentTime = rvm.RentTime;
+            if (!string.IsNullOrWhiteSpace(rvm.Description))
+                rental.Description = rvm.Description;
+            if (rvm.Latitude.HasValue)
+                rental.Latitude = rvm.Latitude;
+            if (rvm.Longitude.HasValue)
+                rental.Longitude = rvm.Longitude;
             rental.Facilities = rvm.Facilities;
             rental.Infrastructure = rvm.Infrastructure;
             rental.Bookings = rvm.Bookings;

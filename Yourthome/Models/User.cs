@@ -27,6 +27,8 @@ namespace Yourthome.Models
         public string Role { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public string VerificationToken { get; set; }
+        public bool IsVerified { get; set; }
     }
     public enum Gender
     {

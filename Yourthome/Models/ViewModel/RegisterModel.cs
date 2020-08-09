@@ -20,6 +20,7 @@ namespace Yourthome.Models.ViewModel
         [Required]
         public int Phone { get; set; }
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
         [Required]
         public Gender Gender { get; set; }

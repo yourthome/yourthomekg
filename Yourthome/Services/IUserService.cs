@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Yourthome.Data;
 using Yourthome.Helpers;
@@ -14,16 +16,22 @@ namespace Yourthome.Services
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
         User GetById(int id);
-        User Create(User user, string password);
+        User Create(User user, string password,string origin);
+        void VerifyEmail(string token);
         void Update(User user, string password = null);
         void Delete(int id);
     }
     public class UserService : IUserService
     {
         private YourthomeContext _context;
-        public UserService(YourthomeContext context)
+        private readonly IEmailService _emailService;
+        private readonly AppSettings _appSettings;
+        public UserService(YourthomeContext context, IEmailService emailService,
+            IOptions<AppSettings> appSettings)
         {
             _context = context;
+            _emailService = emailService;
+            _appSettings = appSettings.Value;
             CreateAdmin();
         }
         public void CreateAdmin()
@@ -38,9 +46,10 @@ namespace Yourthome.Services
                 admin.PasswordHash = passwordHash;
                 admin.PasswordSalt = passwordSalt;
                 admin.Role = Role.Admin;
+                admin.IsVerified = true;
                 _context.Users.Add(admin);
                 _context.SaveChanges();
-            }     
+            }          
         }
         public User Authenticate(string username, string password)
         {
@@ -55,6 +64,8 @@ namespace Yourthome.Services
 
             // check if password is correct
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+                return null;
+            if (!user.IsVerified)
                 return null;
 
             // authentication successful
@@ -71,28 +82,43 @@ namespace Yourthome.Services
             return _context.Users.Find(id);
         }
 
-        public User Create(User user, string password)
+        public User Create(User user, string password,string origin)
         {
-            // validation
+            // validation           
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
             if (_context.Users.Any(x => x.Username == user.Username))
                 throw new AppException("Username \"" + user.Username + "\" is already taken");
-
+            if (_context.Users.Any(x => x.Email == user.Email))
+            {
+                // send already registered error in email to prevent account enumeration
+                sendAlreadyRegisteredEmail(user.Email, origin);
+                throw new AppException("Email \"" + user.Email + "\" is already used");
+            }
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.Role = Role.User;
-            
-            _context.Users.Add(user);
+            user.VerificationToken = randomTokenString();
+            _context.Users.Add(user); 
             _context.SaveChanges();
-
+            sendVerificationEmail(user, origin);
             return user;
         }
+        public void VerifyEmail(string token)
+        {
+            var account = _context.Users.SingleOrDefault(x => x.VerificationToken == token);
 
+            if (account == null) throw new AppException("Verification failed");
+            account.IsVerified = true;
+            account.VerificationToken = null;
+
+            _context.Users.Update(account);
+            _context.SaveChanges();
+        }
         public void Update(User userParam, string password = null)
         {
             var user = _context.Users.Find(userParam.Id);
@@ -178,6 +204,54 @@ namespace Yourthome.Services
             }
 
             return true;
+        }
+        private void sendVerificationEmail(User account, string origin)
+        {
+            string message;
+            if (!string.IsNullOrEmpty(origin))
+            {
+                var verifyUrl = $"{origin}/Users/verify-email?token={account.VerificationToken}";
+                message = $@"<p>Please click the below link to verify your email address:</p>
+                             <p><a href=""{verifyUrl}"">{verifyUrl}</a></p>";
+            }
+            else
+            {
+                message = $@"<p>Please use the below token to verify your email address with the <code>/Users/verify-email</code> api route:</p>
+                             <p><code>{account.VerificationToken}</code></p>";
+            }
+
+            _emailService.Send(
+                to: account.Email,
+                subject: "Yourthome Email Verification!",
+                html: $@"<h4>Verify Email</h4>
+                         <p>Thanks for registering!</p>
+                         {message}"
+            );
+        }
+
+        private void sendAlreadyRegisteredEmail(string email, string origin)
+        {
+            string message;
+            if (!string.IsNullOrEmpty(origin))
+                message = $@"<p>If you don't know your password please visit the <a href=""{origin}/account/forgot-password"">forgot password</a> page.</p>";
+            else
+                message = "<p>If you don't know your password you can reset it via the <code>/accounts/forgot-password</code> api route.</p>";
+
+            _emailService.Send(
+                to: email,
+                subject: "Sign-up Verification API - Email Already Registered",
+                html: $@"<h4>Email Already Registered</h4>
+                         <p>Your email <strong>{email}</strong> is already registered.</p>
+                         {message}"
+            );
+        }
+        private string randomTokenString()
+        {
+            var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
+            var randomBytes = new byte[40];
+            rngCryptoServiceProvider.GetBytes(randomBytes);
+            // convert random bytes to hex string
+            return BitConverter.ToString(randomBytes).Replace("-", "");
         }
     }
 }
