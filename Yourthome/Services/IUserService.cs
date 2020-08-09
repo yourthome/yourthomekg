@@ -49,7 +49,13 @@ namespace Yourthome.Services
                 admin.IsVerified = true;
                 _context.Users.Add(admin);
                 _context.SaveChanges();
-            }          
+            }
+            if (!user.IsVerified)
+            {
+                user.IsVerified = true;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
         }
         public User Authenticate(string username, string password)
         {
@@ -239,7 +245,8 @@ namespace Yourthome.Services
 
             _emailService.Send(
                 to: email,
-                subject: "Sign-up Verification API - Email Already Registered",
+                subject: "Yourthome Email Verification! " +
+                "Email Already Registered",
                 html: $@"<h4>Email Already Registered</h4>
                          <p>Your email <strong>{email}</strong> is already registered.</p>
                          {message}"

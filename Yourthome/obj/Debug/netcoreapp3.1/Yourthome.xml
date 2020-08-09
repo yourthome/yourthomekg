@@ -114,6 +114,11 @@
             User Register
             </summary>
         </member>
+        <member name="M:Yourthome.Controllers.UsersController.VerifyEmail(Yourthome.Models.ViewModel.VerifyEmailRequest)">
+            <summary>
+            Email Verification
+            </summary>
+        </member>
         <member name="M:Yourthome.Controllers.UsersController.GetAll">
             <summary>
             Get All Users
