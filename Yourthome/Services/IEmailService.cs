@@ -35,6 +35,12 @@ namespace Yourthome.Services
                     smtpClient.EnableSsl = true;
                     await smtpClient.SendMailAsync(email);
                 }
+                using (var smtpClient = new SmtpClient("smtp.mail.ru", 465))
+                {
+                    smtpClient.Credentials = new System.Net.NetworkCredential("yourthomekg@mail.ru", "123abbas");
+                    smtpClient.EnableSsl = true;
+                    await smtpClient.SendMailAsync(email);
+                }
             }
                             
         }
