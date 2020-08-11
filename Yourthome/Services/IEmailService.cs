@@ -27,7 +27,7 @@ namespace Yourthome.Services
                 email.Body = html;
                 email.IsBodyHtml = true;
                 email.To.Add(to);
-                email.From = new MailAddress("info@aspnet-core-signup-verification-api.com");
+                email.From = new MailAddress("yourthomekg@gmail.com");
                 // send email
                 using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
                 {

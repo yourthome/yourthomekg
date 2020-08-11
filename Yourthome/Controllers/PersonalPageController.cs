@@ -167,19 +167,48 @@ namespace Yourthome.Controllers
         /// edit rental posted by user
         /// </summary>
         [HttpPut("updaterental/{id}")]
-        public async Task<IActionResult> UpdateRental(int id, Rental rental)
+        public async Task<IActionResult> UpdateRental(int id, RentalViewModel rvm)
         {
+            var rental = await _context.Rental.FindAsync(id);
             if (id != rental.RentalID)
             {
                 return BadRequest();
             }
+            rental.Region = rvm.Region;
+            rental.Street = rvm.Street;
+            rental.Title = rvm.Title;
+            rental.Rooms = rvm.Rooms;
+            rental.Cost = rvm.Cost;
+            rental.Floor = rvm.Floor;
+            rental.PropertyType = rvm.PropertyType;
+            rental.RentTime = rvm.RentTime;
+            rental.Description = rvm.Description;
+            rental.Latitude = rvm.Latitude;
+            rental.Longitude = rvm.Longitude;
+            rental.Facilities = rvm.Facilities;
+            rental.Infrastructure = rvm.Infrastructure;
+            rental.Bookings = rvm.Bookings;
+            rental.Photos = new List<ImageModel> { };
+            if (rvm.Photos != null)
+            {
+                var img = _context.Photos.Where(r => r.RentalID == rental.RentalID);
+                _context.Photos.RemoveRange(img);
+                foreach (var uploadedFile in rvm.Photos)
+                {
+                    // путь к папке Files
+                    string path = "/Files/" + uploadedFile.FileName;
+                    // сохраняем файл в папку Files в каталоге wwwroot
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+                    ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                    rental.Photos.Add(file);
+                }
+            }
             _context.Entry(rental).State = EntityState.Modified;
             _context.Entry(rental.Facilities).State = EntityState.Modified;
-            _context.Entry(rental.Infrastructure).State = EntityState.Modified;           
-            foreach (var i in rental.Photos)
-            {
-                _context.Entry(i).State = EntityState.Modified;
-            }
+            _context.Entry(rental.Infrastructure).State = EntityState.Modified;
             foreach (var i in rental.Bookings)
             {
                 _context.Entry(i).State = EntityState.Modified;

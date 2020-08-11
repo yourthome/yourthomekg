@@ -50,7 +50,7 @@ namespace Yourthome.Services
                 _context.Users.Add(admin);
                 _context.SaveChanges();
             }
-            if (!user.IsVerified)
+            else
             {
                 user.IsVerified = true;
                 _context.Users.Update(user);
@@ -85,7 +85,7 @@ namespace Yourthome.Services
 
         public User GetById(int id)
         {
-            return _context.Users.Find(id);
+            return  _context.Users.Find(id);
         }
 
         public User Create(User user, string password,string origin)

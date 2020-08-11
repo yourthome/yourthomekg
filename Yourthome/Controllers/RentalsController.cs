@@ -117,87 +117,6 @@ namespace Yourthome.Controllers
             return rental;
         }
         /// <summary>
-        /// Edits specific rental by ID
-        /// </summary>
-        // PUT: Rentals/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> PutRental(int id, RentalViewModel rvm)
-        {
-            var rental = await _context.Rental.FindAsync(id);
-            if (id != rental.RentalID)
-            {
-                return BadRequest();
-            }
-            if(rvm.Region.HasValue)          
-                rental.Region = rvm.Region;  
-            if(!string.IsNullOrWhiteSpace(rvm.Street))
-                rental.Street = rvm.Street;
-            if (rvm.Rooms.HasValue)
-                rental.Rooms = rvm.Rooms;
-            if (rvm.Cost.HasValue)
-                rental.Cost = rvm.Cost;
-            if (rvm.Floor.HasValue)
-                rental.Floor = rvm.Floor;
-            if (!string.IsNullOrWhiteSpace(rvm.Title))
-                rental.Title = rvm.Title;
-            if (rvm.PropertyType.HasValue)
-                rental.PropertyType = rvm.PropertyType;
-            if (rvm.RentTime.HasValue)
-                rental.RentTime = rvm.RentTime;
-            if (!string.IsNullOrWhiteSpace(rvm.Description))
-                rental.Description = rvm.Description;
-            if (rvm.Latitude.HasValue)
-                rental.Latitude = rvm.Latitude;
-            if (rvm.Longitude.HasValue)
-                rental.Longitude = rvm.Longitude;
-            rental.Facilities = rvm.Facilities;
-            rental.Infrastructure = rvm.Infrastructure;
-            rental.Bookings = rvm.Bookings;
-            rental.Photos = new List<ImageModel>();
-            foreach (var uploadedFile in rvm.Photos)
-            {
-                // путь к папке Files
-                string path = "/Files/" + uploadedFile.FileName;
-                // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                {
-                    await uploadedFile.CopyToAsync(fileStream);
-                }
-                ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
-                rental.Photos.Add(file);
-            }
-            _context.Entry(rental).State = EntityState.Modified;
-            _context.Entry(rental.Facilities).State = EntityState.Modified;
-            _context.Entry(rental.Infrastructure).State = EntityState.Modified;
-            foreach (var i in rental.Photos)
-            {
-                _context.Entry(i).State = EntityState.Modified;
-            }
-            foreach (var i in rental.Bookings)
-            {
-                _context.Entry(i).State = EntityState.Modified;
-            }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RentalExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return NoContent();
-        }
-        /// <summary>
         /// Create new rental
         /// </summary>
         // POST: Rentals
@@ -205,7 +124,7 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -251,24 +170,7 @@ namespace Yourthome.Controllers
 
             return CreatedAtAction("GetRental", new { id = rental.RentalID }, rental);
         }
-        /// <summary>
-        /// Delete specific rental by ID
-        /// </summary>
-        // DELETE: Rentals/5
-        [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> DeleteRental(int id)
-        {
-            var rental = await _context.Rental.FindAsync(id);
-            if (rental == null)
-            {
-                return NotFound();
-            }
-            _context.Rental.Remove(rental);
-            await _context.SaveChangesAsync();
-            return rental;
-        }
-
+        
         private bool RentalExists(int id)
         {
             return _context.Rental.Any(e => e.RentalID == id);

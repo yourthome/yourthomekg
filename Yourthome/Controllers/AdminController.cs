@@ -53,42 +53,7 @@ namespace Yourthome.Controllers
             var user = _userService.GetById(id);
             var model = _mapper.Map<UserModel>(user);
             return Ok(model);
-        }
-        /// <summary>
-        /// edit user's info
-        /// </summary>
-        [HttpPut("users/{id}/update")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Update(int id, UpdateModel model)
-        {
-            // map model to entity and set id
-            var user = _mapper.Map<User>(model);
-            user.Id = id;
-            if (user.Avatar != null)
-            {
-                // путь к папке Files
-                string path = "/Files/" + user.Avatar.FileName;
-                // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                {
-                    await user.Avatar.CopyToAsync(fileStream);
-                }
-                ImageModel file = new ImageModel { Name = user.Avatar.FileName, Path = path };
-                user.AvatarName = file.Name;
-                user.AvatarPath = file.Path;
-            }
-            try
-            {
-                // update user 
-                _userService.Update(user, model.Password);
-                return Ok();
-            }
-            catch (AppException ex)
-            {
-                // return error message if there was an exception
-                return BadRequest(new { message = ex.Message });
-            }
-        }
+        }            
         /// <summary>
         /// delete user
         /// </summary>
@@ -130,46 +95,7 @@ namespace Yourthome.Controllers
                 return NotFound();
             }
             return rental;
-        }
-        /// <summary>
-        /// edit rental
-        /// </summary>
-        [HttpPut("rentals/{id}/update")]
-        [Authorize(Roles = Role.Admin)]
-        public async Task<IActionResult> PutRental(int id, Rental rental)
-        {
-            if (id != rental.RentalID)
-            {
-                return BadRequest();
-            }
-            _context.Entry(rental).State = EntityState.Modified;
-            _context.Entry(rental.Facilities).State = EntityState.Modified;
-            _context.Entry(rental.Infrastructure).State = EntityState.Modified;
-            foreach (var i in rental.Photos)
-            {
-                _context.Entry(i).State = EntityState.Modified;
-            }
-            foreach (var i in rental.Bookings)
-            {
-                _context.Entry(i).State = EntityState.Modified;
-            }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RentalExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return NoContent();
-        }
+        }       
         /// <summary>
         /// delete rental
         /// </summary>
@@ -187,9 +113,6 @@ namespace Yourthome.Controllers
             await _context.SaveChangesAsync();
             return rental;
         }
-        private bool RentalExists(int id)
-        {
-            return _context.Rental.Any(e => e.RentalID == id);
-        }
+        
     }
 }

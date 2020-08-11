@@ -13,7 +13,6 @@ namespace Yourthome.Models
         public int RentalID { get; set; }
         public int UserID { get; set; }
         public string Title { get; set; }
-        [Required]
         public Region? Region { get; set; }
         public string Street { get; set; }
         public int? Rooms { get; set; }

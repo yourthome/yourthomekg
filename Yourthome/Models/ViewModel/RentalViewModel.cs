@@ -22,7 +22,7 @@ namespace Yourthome.ViewModel
         public decimal? Longitude { get; set; }
         public Facilities Facilities { get; set; }
         public Infrastructure Infrastructure { get; set; }
-        public List<IFormFile> Photos { get; set; }
+        public List<IFormFile> Photos { get; set; } 
         public List<Booking> Bookings { get; set; } = new List<Booking> { };       
     }
     

@@ -14,11 +14,6 @@
             get specific user by id
             </summary>
         </member>
-        <member name="M:Yourthome.Controllers.AdminController.Update(System.Int32,Yourthome.Models.ViewModel.UpdateModel)">
-            <summary>
-            edit user's info
-            </summary>
-        </member>
         <member name="M:Yourthome.Controllers.AdminController.Delete(System.Int32)">
             <summary>
             delete user
@@ -32,11 +27,6 @@
         <member name="M:Yourthome.Controllers.AdminController.GetRental(System.Int32)">
             <summary>
             get rental by id
-            </summary>
-        </member>
-        <member name="M:Yourthome.Controllers.AdminController.PutRental(System.Int32,Yourthome.Models.Rental)">
-            <summary>
-            edit rental
             </summary>
         </member>
         <member name="M:Yourthome.Controllers.AdminController.DeleteRental(System.Int32)">
@@ -69,7 +59,7 @@
             post rental from user's page
             </summary>
         </member>
-        <member name="M:Yourthome.Controllers.PersonalPageController.UpdateRental(System.Int32,Yourthome.Models.Rental)">
+        <member name="M:Yourthome.Controllers.PersonalPageController.UpdateRental(System.Int32,Yourthome.ViewModel.RentalViewModel)">
             <summary>
             edit rental posted by user
             </summary>
@@ -89,19 +79,9 @@
             Find specific rental by ID
             </summary>
         </member>
-        <member name="M:Yourthome.Controllers.RentalsController.PutRental(System.Int32,Yourthome.ViewModel.RentalViewModel)">
-            <summary>
-            Edits specific rental by ID
-            </summary>
-        </member>
         <member name="M:Yourthome.Controllers.RentalsController.PostRental(Yourthome.ViewModel.RentalViewModel)">
             <summary>
             Create new rental
-            </summary>
-        </member>
-        <member name="M:Yourthome.Controllers.RentalsController.DeleteRental(System.Int32)">
-            <summary>
-            Delete specific rental by ID
             </summary>
         </member>
         <member name="M:Yourthome.Controllers.UsersController.Authenticate(Yourthome.Models.ViewModel.AuthenticateModel)">
@@ -117,26 +97,6 @@
         <member name="M:Yourthome.Controllers.UsersController.VerifyEmail(Yourthome.Models.ViewModel.VerifyEmailRequest)">
             <summary>
             Email Verification
-            </summary>
-        </member>
-        <member name="M:Yourthome.Controllers.UsersController.GetAll">
-            <summary>
-            Get All Users
-            </summary>
-        </member>
-        <member name="M:Yourthome.Controllers.UsersController.GetById(System.Int32)">
-            <summary>
-            Get user by ID
-            </summary>
-        </member>
-        <member name="M:Yourthome.Controllers.UsersController.Update(System.Int32,Yourthome.Models.ViewModel.UpdateModel)">
-            <summary>
-            Edit user info
-            </summary>
-        </member>
-        <member name="M:Yourthome.Controllers.UsersController.Delete(System.Int32)">
-            <summary>
-            Delete user by ID
             </summary>
         </member>
     </members>
