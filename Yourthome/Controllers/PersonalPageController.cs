@@ -118,7 +118,7 @@ namespace Yourthome.Controllers
         /// post rental from user's page
         /// </summary>
         [HttpPost("postrental")]
-        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {

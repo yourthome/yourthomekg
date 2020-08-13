@@ -50,7 +50,7 @@ namespace Yourthome.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<User>> GetById(int id)
         {
-            var user = _userService.GetById(id);
+            var user = await _userService.GetById(id);
             var model = _mapper.Map<UserModel>(user);
             return Ok(model);
         }            

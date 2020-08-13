@@ -15,7 +15,7 @@ namespace Yourthome.Services
         void CreateAdmin();
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
-        User GetById(int id);
+        Task<User> GetById(int id);
         User Create(User user, string password,string origin);
         void VerifyEmail(string token);
         void Update(User user, string password = null);
@@ -83,9 +83,9 @@ namespace Yourthome.Services
             return _context.Users;
         }
 
-        public User GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            return  _context.Users.Find(id);
+            return await _context.Users.FindAsync(id);
         }
 
         public User Create(User user, string password,string origin)
