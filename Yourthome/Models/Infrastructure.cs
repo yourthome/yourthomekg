@@ -12,12 +12,12 @@ namespace Yourthome.Models
         public int RentalID { get; set; }
         [JsonIgnore]
         public Rental Rental { get; set; }
-        public bool? Cafe { get; set; } = true;
-        public bool? Kindergarten { get; set; } = true;
-        public bool? Parking { get; set; } = true;
-        public bool? BusStop { get; set; } = true;
-        public bool? Supermarket { get; set; } = true;
-        public bool? Park { get; set; } = true;
-        public bool? Hospital { get; set; } = true;
+        public bool Cafe { get; set; } = true;
+        public bool Kindergarten { get; set; } = true;
+        public bool Parking { get; set; } = true;
+        public bool BusStop { get; set; } = true;
+        public bool Supermarket { get; set; } = true;
+        public bool Park { get; set; } = true;
+        public bool Hospital { get; set; } = true;
     }
 }

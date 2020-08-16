@@ -39,7 +39,7 @@ namespace Yourthome.Controllers
         [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
-            var users = _userService.GetAll();
+            var users = await _userService.GetAll();
             var model = _mapper.Map<IList<UserModel>>(users);
             return Ok(model);
         }
@@ -61,7 +61,7 @@ namespace Yourthome.Controllers
         [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult> Delete(int id)
         {
-            _userService.Delete(id);
+            await _userService.Delete(id);
             return Ok();
         }
         /// <summary>

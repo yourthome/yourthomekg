@@ -7,13 +7,13 @@ namespace Yourthome.Models
 {
     public class FacFilter
     {
-        public bool? Internet { get; set; } = null;
-        public bool? Phone { get; set; } = null;
-        public bool? Refrigerator { get; set; } = null;
-        public bool? Kitchen { get; set; } = null;
-        public bool? TV { get; set; } = null;
-        public bool? Balcony { get; set; } = null;
-        public bool? Washer { get; set; } = null;
-        public bool? AirConditioning { get; set; } = null;
+        public bool Internet { get; set; } = false;
+        public bool Phone { get; set; } = false;
+        public bool Refrigerator { get; set; } = false;
+        public bool Kitchen { get; set; } = false;
+        public bool TV { get; set; } = false;
+        public bool Balcony { get; set; } = false;
+        public bool Washer { get; set; } = false;
+        public bool AirConditioning { get; set; } = false;
     }
 }

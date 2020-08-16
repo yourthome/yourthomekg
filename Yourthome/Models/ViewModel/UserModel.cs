@@ -14,6 +14,7 @@ namespace Yourthome.Models.ViewModel
         public int Phone { get; set; }
         public string Email { get; set; }
         public Gender Gender { get; set; }
+        public bool IsVerified { get; set; }
         public string AvatarName { get; set; }
         public string AvatarPath { get; set; }
     }

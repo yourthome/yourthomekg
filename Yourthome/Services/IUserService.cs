@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +15,13 @@ namespace Yourthome.Services
     public interface IUserService
     {
         void CreateAdmin();
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
+        Task<User> Authenticate(string username, string password);
+        Task<IEnumerable<User>> GetAll();
         Task<User> GetById(int id);
-        User Create(User user, string password,string origin);
-        void VerifyEmail(string token);
-        void Update(User user, string password = null);
-        void Delete(int id);
+        Task<User> Create(User user, string password,string origin);
+        Task VerifyEmail(string token);
+        Task Update(User user, string password = null);
+        Task Delete(int id);
     }
     public class UserService : IUserService
     {
@@ -49,23 +51,17 @@ namespace Yourthome.Services
                 admin.IsVerified = true;
                 _context.Users.Add(admin);
                 _context.SaveChanges();
-            }
-            else
-            {
-                user.IsVerified = true;
-                _context.Users.Update(user);
-                _context.SaveChanges();
-            }
+            }           
         }
-        public User Authenticate(string username, string password)
+        public async Task<User> Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Users.SingleOrDefault(x => x.Username == username);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
 
             // check if username exists
-            if (user == null)
+            if (user == null)   
                 return null;
 
             // check if password is correct
@@ -78,9 +74,10 @@ namespace Yourthome.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            return _context.Users;
+            var rents = _context.Users.Where(u => u.Id != 1);
+            return await rents.ToListAsync();
         }
 
         public async Task<User> GetById(int id)
@@ -88,7 +85,7 @@ namespace Yourthome.Services
             return await _context.Users.FindAsync(id);
         }
 
-        public User Create(User user, string password,string origin)
+        public async Task<User> Create(User user, string password,string origin)
         {
             // validation           
             if (string.IsNullOrWhiteSpace(password))
@@ -110,24 +107,24 @@ namespace Yourthome.Services
             user.Role = Role.User;
             user.VerificationToken = randomTokenString();
             _context.Users.Add(user); 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             sendVerificationEmail(user, origin);
             return user;
         }
-        public void VerifyEmail(string token)
+        public async Task VerifyEmail(string token)
         {
-            var account = _context.Users.SingleOrDefault(x => x.VerificationToken == token);
+            var account =  await _context.Users.SingleOrDefaultAsync(x => x.VerificationToken == token);
 
             if (account == null) throw new AppException("Verification failed");
             account.IsVerified = true;
             account.VerificationToken = null;
 
             _context.Users.Update(account);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public void Update(User userParam, string password = null)
+        public async Task Update(User userParam, string password = null)
         {
-            var user = _context.Users.Find(userParam.Id);
+            var user = await _context.Users.FindAsync(userParam.Id);
 
             if (user == null)
                 throw new AppException("User not found");
@@ -138,7 +135,6 @@ namespace Yourthome.Services
                 // throw error if the new username is already taken
                 if (_context.Users.Any(x => x.Username == userParam.Username))
                     throw new AppException("Username " + userParam.Username + " is already taken");
-
                 user.Username = userParam.Username;
             }
 
@@ -164,10 +160,10 @@ namespace Yourthome.Services
             }
 
             _context.Users.Update(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {         
             var user = _context.Users.Find(id);
             if (user != null && user.Role!=Role.Admin)
@@ -175,7 +171,7 @@ namespace Yourthome.Services
                 var rentals = _context.Rental.Where(r => r.UserID == id);
                 _context.Rental.RemoveRange(rentals);
                 _context.Users.Remove(user);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -211,7 +207,7 @@ namespace Yourthome.Services
 
             return true;
         }
-        private void sendVerificationEmail(User account, string origin)
+        private async void sendVerificationEmail(User account, string origin)
         {
             string message;
             if (!string.IsNullOrEmpty(origin))
@@ -226,7 +222,7 @@ namespace Yourthome.Services
                              <p><code>{account.VerificationToken}</code></p>";
             }
 
-            _emailService.Send(
+            await _emailService.Send(
                 to: account.Email,
                 subject: "Yourthome Email Verification!",
                 html: $@"<h4>Verify Email</h4>
@@ -235,7 +231,7 @@ namespace Yourthome.Services
             );
         }
 
-        private void sendAlreadyRegisteredEmail(string email, string origin)
+        private async void sendAlreadyRegisteredEmail(string email, string origin)
         {
             string message;
             if (!string.IsNullOrEmpty(origin))
@@ -243,7 +239,7 @@ namespace Yourthome.Services
             else
                 message = "<p>If you don't know your password you can reset it via the <code>/accounts/forgot-password</code> api route.</p>";
 
-            _emailService.Send(
+            await _emailService.Send(
                 to: email,
                 subject: "Yourthome Email Verification! " +
                 "Email Already Registered",

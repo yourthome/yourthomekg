@@ -70,30 +70,77 @@ namespace Yourthome.Controllers
             {
                 rents = rents.Where(r => r.Cost>=CostrangeStart && r.Cost<=CostrangeEnd); // filter in cost range
             }
-            if (facfilter.Internet != null && facfilter.AirConditioning != null)
+            //--------------------------------Facilities Filter--------------------------------
+            if (facfilter.Internet == true)
             {
-                rents = rents.Where(r => r.Facilities.AirConditioning == facfilter.AirConditioning && r.Facilities.Internet == facfilter.Internet
-                && r.Facilities.Phone == facfilter.Phone && r.Facilities.Washer == facfilter.Washer
-                && r.Facilities.Refrigerator == facfilter.Refrigerator && r.Facilities.Balcony == facfilter.Balcony
-                && r.Facilities.Kitchen == facfilter.Kitchen && r.Facilities.TV == facfilter.TV
-                && r.Facilities.Internet == facfilter.Internet);
+                rents = rents.Where(r => r.Facilities.Internet == facfilter.Internet);
             }
-            if (infrafilter.Cafe != null && infrafilter.Hospital != null)
+            if (facfilter.Phone == true)
             {
-                rents = rents.Where(r => r.Infrastructure.BusStop == infrafilter.BusStop && r.Infrastructure.Parking == infrafilter.Parking
-                && r.Infrastructure.Kindergarten == infrafilter.Kindergarten && r.Infrastructure.Cafe == infrafilter.Cafe
-                && r.Infrastructure.Supermarket == infrafilter.Supermarket && r.Infrastructure.Park == infrafilter.Park
-                && r.Infrastructure.Hospital == infrafilter.Hospital);
-            }                    
-            if (sort.HasValue)
+                rents = rents.Where(r => r.Facilities.Phone == facfilter.Phone);
+            }
+            if (facfilter.Refrigerator == true)
+            {
+                rents = rents.Where(r => r.Facilities.Refrigerator == facfilter.Refrigerator);
+            }
+            if (facfilter.Kitchen == true)
+            {
+                rents = rents.Where(r => r.Facilities.Kitchen == facfilter.Kitchen);
+            }
+            if (facfilter.Balcony == true)
+            {
+                rents = rents.Where(r => r.Facilities.Balcony == facfilter.Balcony);
+            }
+            if (facfilter.Washer == true)
+            {
+                rents = rents.Where(r => r.Facilities.Washer == facfilter.Washer);
+            }
+            if (facfilter.AirConditioning == true)
+            {
+                rents = rents.Where(r => r.Facilities.AirConditioning == facfilter.AirConditioning);
+            }
+            if (facfilter.Internet == true)
+            {
+                rents = rents.Where(r => r.Facilities.Internet == facfilter.Internet);
+            }
+            //--------------------------------Infrastructure Filter--------------------------------
+            if (infrafilter.Cafe == true)
+            {
+                rents = rents.Where(r => r.Infrastructure.Cafe == infrafilter.Cafe);
+            }
+            if (infrafilter.Kindergarten == true)
+            {
+                rents = rents.Where(r => r.Infrastructure.Kindergarten == infrafilter.Kindergarten);
+            }
+            if (infrafilter.Parking == true)
+            {
+                rents = rents.Where(r => r.Infrastructure.Parking == infrafilter.Parking);
+            }
+            if (infrafilter.BusStop == true)
+            {
+                rents = rents.Where(r => r.Infrastructure.BusStop == infrafilter.BusStop);
+            }
+            if (infrafilter.Supermarket == true)
+            {
+                rents = rents.Where(r => r.Infrastructure.Supermarket == infrafilter.Supermarket);
+            }
+            if (infrafilter.Park == true)
+            {
+                rents = rents.Where(r => r.Infrastructure.Park == infrafilter.Park);
+            }
+            if (infrafilter.Hospital == true)
+            {
+                rents = rents.Where(r => r.Infrastructure.Hospital == infrafilter.Hospital);
+            }          
+            if (sort.HasValue)   //sort by cost order
             {
                 switch(sort)
                 {
                     case Sort.ASC:
-                        rents = rents.OrderBy(r => r.Cost); //sort by cost in ascending order
+                        rents = rents.OrderBy(r => r.Cost); 
                         break;
                     case Sort.DESC:
-                        rents = rents.OrderByDescending(r => r.Cost); //sort by cost in descending order
+                        rents = rents.OrderByDescending(r => r.Cost); 
                         break;
                 }
             }
@@ -124,7 +171,7 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {

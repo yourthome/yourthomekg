@@ -77,7 +77,7 @@ namespace Yourthome.Controllers
             try
             {
                 // update user 
-                _userService.Update(user, model.Password);
+                await _userService.Update(user, model.Password);
                 return Ok();
             }
             catch (AppException ex)
@@ -118,7 +118,7 @@ namespace Yourthome.Controllers
         /// post rental from user's page
         /// </summary>
         [HttpPost("postrental")]
-        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -158,7 +158,7 @@ namespace Yourthome.Controllers
                     rental.Photos.Add(file);
                 }
             }          
-            _context.Rental.Add(rental);
+            await _context.Rental.AddAsync(rental);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUserRentals", new { id = rental.RentalID }, rental);

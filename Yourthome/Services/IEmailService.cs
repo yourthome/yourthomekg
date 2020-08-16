@@ -1,5 +1,6 @@
 ﻿//using MailKit.Net.Smtp;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -10,7 +11,7 @@ namespace Yourthome.Services
 {
     public interface IEmailService
     {
-        void Send(string to, string subject, string html, string from = null);
+        Task Send(string to, string subject, string html, string from = null);
     }
 
     public class EmailService : IEmailService
@@ -19,7 +20,7 @@ namespace Yourthome.Services
         public EmailService()
         {}
 
-        public async void Send(string to, string subject, string html, string from = null)
+        public async Task Send(string to, string subject, string html, string from = null)
         {           
             using (MailMessage email = new MailMessage())
             {

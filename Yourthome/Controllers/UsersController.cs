@@ -47,9 +47,9 @@ namespace Yourthome.Controllers
         /// User Log In
         /// </summary>
         [HttpPost("authenticate")]
-        public IActionResult Authenticate(AuthenticateModel model)
+        public async Task<IActionResult> Authenticate(AuthenticateModel model)
         {
-            var user = _userService.Authenticate(model.Username, model.Password);
+            var user = await _userService.Authenticate(model.Username, model.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect. M.b. email isn't verified" });
@@ -85,7 +85,7 @@ namespace Yourthome.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register(RegisterModel model)
+        public async Task<IActionResult> Register(RegisterModel model)
         {
             // map model to entity
             var user = _mapper.Map<User>(model);
@@ -96,7 +96,7 @@ namespace Yourthome.Controllers
                 // сохраняем файл в папку Files в каталоге wwwroot
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
-                    user.Avatar.CopyToAsync(fileStream);
+                    await user.Avatar.CopyToAsync(fileStream);
                 }
                 ImageModel file = new ImageModel { Name = user.Avatar.FileName, Path = path };
                 user.AvatarName = file.Name;
@@ -105,7 +105,7 @@ namespace Yourthome.Controllers
             try
             {
                 // create user
-                _userService.Create(user,model.Password,Request.Headers["origin"]);
+                await _userService.Create(user,model.Password,Request.Headers["origin"]);
                 return Ok();
             }
             catch (AppException ex)
@@ -119,9 +119,9 @@ namespace Yourthome.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost("verify-email")]
-        public IActionResult VerifyEmail(VerifyEmailRequest model)
+        public async Task<IActionResult> VerifyEmail(VerifyEmailRequest model)
         {
-            _userService.VerifyEmail(model.Token);
+            await _userService.VerifyEmail(model.Token);
             return Ok(new { message = "Verification successful, you can now login" });
         }
         
