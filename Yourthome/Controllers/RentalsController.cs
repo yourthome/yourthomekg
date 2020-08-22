@@ -171,7 +171,7 @@ namespace Yourthome.Controllers
         // more details see https://aka.ms/RazorPagesCRUD. 
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {

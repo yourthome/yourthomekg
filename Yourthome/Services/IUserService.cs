@@ -67,8 +67,8 @@ namespace Yourthome.Services
             // check if password is correct
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
-            if (!user.IsVerified)
-                return null;
+            /*if (!user.IsVerified)
+                return null;*/
 
             // authentication successful
             return user;
@@ -106,6 +106,7 @@ namespace Yourthome.Services
             user.PasswordSalt = passwordSalt;
             user.Role = Role.User;
             user.VerificationToken = randomTokenString();
+            user.IsVerified = true;
             _context.Users.Add(user); 
             await _context.SaveChangesAsync();
             sendVerificationEmail(user, origin);
