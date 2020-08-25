@@ -22,11 +22,14 @@ namespace Yourthome.Controllers
         private readonly YourthomeContext _context;
         IWebHostEnvironment _appEnvironment;
         private IIdsaferService _idsaferservice;
-        public RentalsController(YourthomeContext context,IIdsaferService idsaferservice, IWebHostEnvironment appEnvironment)
+        private readonly ICloudStorage _cloudStorage;
+        public RentalsController(YourthomeContext context,IIdsaferService idsaferservice,
+            ICloudStorage cloudStorage, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _idsaferservice = idsaferservice;
             _appEnvironment = appEnvironment;
+            _cloudStorage = cloudStorage;
         }
         /// <summary>
         /// Find all rentals
@@ -199,19 +202,12 @@ namespace Yourthome.Controllers
             if (rvm.Photos != null)
             {
                 foreach (var uploadedFile in rvm.Photos)
-                {
-                    // путь к папке Files
-                    string path = "/Files/" + uploadedFile.FileName;
-                    // сохраняем файл в папку Files в каталоге wwwroot
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                    {
-                        await uploadedFile.CopyToAsync(fileStream);
-                    }
-                    ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                {                                    
+                    ImageModel file = new ImageModel { Name = uploadedFile.FileName};
+                    file.Path = await _cloudStorage.UploadFileAsync(uploadedFile, file.Name);
                     rental.Photos.Add(file);
                 }
-            }
-            
+            }          
             _context.Rental.Add(rental);
             await _context.SaveChangesAsync();
 

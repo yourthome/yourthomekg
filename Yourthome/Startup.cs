@@ -90,6 +90,7 @@ namespace Yourthome
             services.AddScoped<IUserService,UserService>();         
             services.AddScoped<IIdsaferService, IdsaferService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
             services.AddSwaggerGen(c=>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

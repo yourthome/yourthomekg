@@ -574,5 +574,14 @@ D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\MailKit.dl
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\MimeKit.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Google.Api.Gax.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Google.Api.Gax.Rest.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Google.Apis.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Google.Apis.Core.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Google.Apis.Storage.v1.dll
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\Google.Cloud.Storage.V1.dll
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cs
 D:\VisualStudioProjects\yourthomekg\Yourthome\obj\Debug\netcoreapp3.1\Yourthome.MvcApplicationPartsAssemblyInfo.cache
+D:\VisualStudioProjects\yourthomekg\Yourthome\bin\Debug\netcoreapp3.1\encoded-joy-287512-d47d4a172ec0.json

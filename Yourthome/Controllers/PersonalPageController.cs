@@ -28,15 +28,18 @@ namespace Yourthome.Controllers
         private IMapper _mapper;
         private IIdsaferService _idsaferservice;
         IWebHostEnvironment _appEnvironment;
+        private readonly ICloudStorage _cloudStorage;
 
         public PersonalPageController(YourthomeContext context, IUserService userService,
-            IMapper mapper, IIdsaferService idsaferservice, IWebHostEnvironment appEnvironment)
+            IMapper mapper, IIdsaferService idsaferservice, 
+            IWebHostEnvironment appEnvironment, ICloudStorage cloudStorage)
         {
             _context = context;
             _userService = userService;
             _mapper = mapper;
             _idsaferservice = idsaferservice;
             _appEnvironment = appEnvironment;
+            _cloudStorage = cloudStorage;
         }
         /// <summary>
         /// Get logged user's info
@@ -118,7 +121,7 @@ namespace Yourthome.Controllers
         /// post rental from user's page
         /// </summary>
         [HttpPost("postrental")]
-        public async Task<ActionResult<Rental>> PostRental(RentalViewModel rvm)
+        public async Task<ActionResult<Rental>> PostRental([FromForm]RentalViewModel rvm)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -147,14 +150,8 @@ namespace Yourthome.Controllers
             {
                 foreach (var uploadedFile in rvm.Photos)
                 {
-                    // путь к папке Files
-                    string path = "/Files/" + uploadedFile.FileName;
-                    // сохраняем файл в папку Files в каталоге wwwroot
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                    {
-                        await uploadedFile.CopyToAsync(fileStream);
-                    }
-                    ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                    ImageModel file = new ImageModel { Name = uploadedFile.FileName };
+                    file.Path = await _cloudStorage.UploadFileAsync(uploadedFile, file.Name);
                     rental.Photos.Add(file);
                 }
             }          
@@ -195,20 +192,47 @@ namespace Yourthome.Controllers
                 _context.Photos.RemoveRange(img);
                 foreach (var uploadedFile in rvm.Photos)
                 {
-                    // путь к папке Files
-                    string path = "/Files/" + uploadedFile.FileName;
-                    // сохраняем файл в папку Files в каталоге wwwroot
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                    {
-                        await uploadedFile.CopyToAsync(fileStream);
-                    }
-                    ImageModel file = new ImageModel { Name = uploadedFile.FileName, Path = path };
+                    ImageModel file = new ImageModel { Name = uploadedFile.FileName };
+                    file.Path = await _cloudStorage.UploadFileAsync(uploadedFile, file.Name);
                     rental.Photos.Add(file);
                 }
             }
             _context.Entry(rental).State = EntityState.Modified;
             _context.Entry(rental.Facilities).State = EntityState.Modified;
             _context.Entry(rental.Infrastructure).State = EntityState.Modified;
+            foreach (var i in rental.Bookings)
+            {
+                _context.Entry(i).State = EntityState.Modified;
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!RentalExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+        /// <summary>
+        /// book a rental
+        /// </summary>
+        [HttpPut("Booking/{id}")]
+        public async Task<IActionResult> Booking(int id, BookingViewModel book)
+        {
+            var rental = await _context.Rental.FindAsync(id);
+            if (id != rental.RentalID)
+            {
+                return BadRequest();
+            }          
+            rental.Bookings = book.Bookings;
             foreach (var i in rental.Bookings)
             {
                 _context.Entry(i).State = EntityState.Modified;

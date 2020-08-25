@@ -64,6 +64,11 @@
             edit rental posted by user
             </summary>
         </member>
+        <member name="M:Yourthome.Controllers.PersonalPageController.Booking(System.Int32,Yourthome.Models.ViewModel.BookingViewModel)">
+            <summary>
+            book a rental
+            </summary>
+        </member>
         <member name="M:Yourthome.Controllers.PersonalPageController.DeleteRental(System.Int32)">
             <summary>
             delete user's rental
