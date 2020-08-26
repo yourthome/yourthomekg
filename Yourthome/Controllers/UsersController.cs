@@ -83,7 +83,6 @@ namespace Yourthome.Controllers
         /// <summary>
         /// User Register
         /// </summary>
-        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
@@ -117,7 +116,6 @@ namespace Yourthome.Controllers
         /// <summary>
         /// Email Verification
         /// </summary>
-        [AllowAnonymous]
         [HttpPost("verify-email")]
         public async Task<IActionResult> VerifyEmail(VerifyEmailRequest model)
         {

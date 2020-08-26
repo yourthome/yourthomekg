@@ -59,7 +59,7 @@ namespace Yourthome.Controllers
         /// edit logged user's info
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UpdateModel model)
+        public async Task<IActionResult> UpdateUser([FromForm]UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
@@ -164,7 +164,7 @@ namespace Yourthome.Controllers
         /// edit rental posted by user
         /// </summary>
         [HttpPut("updaterental/{id}")]
-        public async Task<IActionResult> UpdateRental(int id, RentalViewModel rvm)
+        public async Task<IActionResult> UpdateRental(int id, [FromForm]RentalViewModel rvm)
         {
             var rental = await _context.Rental.FindAsync(id);
             if (id != rental.RentalID)
