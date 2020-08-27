@@ -191,6 +191,7 @@ namespace Yourthome.Controllers
                 Floor = rvm.Floor,
                 PropertyType = rvm.PropertyType,
                 RentTime = rvm.RentTime,
+                Phone = rvm.Phone,
                 Description = rvm.Description,
                 Latitude = rvm.Latitude,
                 Longitude = rvm.Longitude,

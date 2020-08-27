@@ -140,6 +140,7 @@ namespace Yourthome.Controllers
                 RentTime = rvm.RentTime,
                 Description = rvm.Description,
                 Latitude = rvm.Latitude,
+                Phone = rvm.Phone,
                 Longitude = rvm.Longitude,
                 Facilities = rvm.Facilities,
                 Infrastructure = rvm.Infrastructure,

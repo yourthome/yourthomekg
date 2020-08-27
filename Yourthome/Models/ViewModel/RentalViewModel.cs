@@ -13,6 +13,7 @@ namespace Yourthome.ViewModel
         public Region? Region { get; set; }
         public string Street { get; set; }
         public int? Rooms { get; set; }
+        public int Phone { get; set; }
         public int? Cost { get; set; }
         public int? Floor { get; set; }
         public PropertyType? PropertyType { get; set; }
