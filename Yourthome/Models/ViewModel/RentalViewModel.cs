@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yourthome.Models;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Yourthome.ViewModel
 {
